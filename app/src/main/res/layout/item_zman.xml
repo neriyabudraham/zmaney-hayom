@@ -4,36 +4,38 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:paddingStart="12dp"
-    android:paddingEnd="12dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:minHeight="48dp"
-    android:background="?android:selectableItemBackground"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:minHeight="52dp"
+    android:background="@drawable/focus_highlight"
     android:focusable="true"
     android:clickable="true">
 
-    <!-- Alert indicator dot -->
     <View
         android:id="@+id/alert_indicator"
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:background="@drawable/circle_indicator"
         android:visibility="invisible"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="10dp" />
 
-    <!-- Zman name -->
     <TextView
         android:id="@+id/zman_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        style="@style/ZmanLabelText" />
+        android:textSize="15sp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/text_primary_light" />
 
-    <!-- Zman time -->
     <TextView
         android:id="@+id/zman_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/ZmanTimeText" />
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"
+        android:textStyle="bold"
+        android:textColor="@color/primary" />
 </LinearLayout>

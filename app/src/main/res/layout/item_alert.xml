@@ -3,16 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="1dp">
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/divider_light"
+    app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp"
-        android:gravity="center_vertical">
+        android:padding="14dp"
+        android:gravity="center_vertical"
+        android:minHeight="60dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -24,22 +31,27 @@
                 android:id="@+id/alert_zman_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/text_primary_light" />
 
             <TextView
                 android:id="@+id/alert_offset_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
-                android:textColor="?android:textColorSecondary" />
+                android:textSize="13sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/text_secondary_light"
+                android:paddingTop="2dp" />
 
             <TextView
                 android:id="@+id/alert_next_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
-                android:textColor="@color/accent" />
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/primary"
+                android:paddingTop="2dp" />
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat

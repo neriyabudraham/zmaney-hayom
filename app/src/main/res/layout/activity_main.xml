@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/main_root"
-    android:background="?android:windowBackground">
+    android:background="@color/background_light">
 
-    <!-- Toolbar with keyboard focus -->
+    <!-- Premium gradient toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="?colorPrimary"
+        android:layout_height="56dp"
+        android:background="@drawable/toolbar_bg"
+        android:elevation="0dp"
         app:titleTextColor="@color/white"
         app:title="@string/app_name"
         app:titleTextAppearance="@style/ZmanLabelText"
@@ -20,21 +21,30 @@
         android:focusable="true"
         android:nextFocusDown="@id/clock_view" />
 
-    <!-- Clock + Date Header Card -->
+    <!-- Hero Clock Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/header_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="3dp">
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/divider_light"
+        app:cardBackgroundColor="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="10dp">
+            android:paddingTop="20dp"
+            android:paddingBottom="12dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
             <TextClock
                 android:id="@+id/clock_view"
@@ -43,7 +53,7 @@
                 style="@style/ClockText"
                 android:format24Hour="HH:mm:ss"
                 android:format12Hour="HH:mm:ss"
-                android:textColor="?colorPrimary"
+                android:textColor="@color/primary"
                 android:focusable="true"
                 android:nextFocusDown="@id/zmanim_list" />
 
@@ -51,17 +61,19 @@
                 android:id="@+id/gregorian_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="?android:textColorSecondary"
-                android:paddingTop="2dp" />
+                android:textSize="14sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/text_secondary_light"
+                android:paddingTop="4dp" />
 
             <TextView
                 android:id="@+id/hebrew_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/HebrewDateText" />
+                style="@style/HebrewDateText"
+                android:paddingTop="2dp" />
 
-            <!-- Next alert indicator -->
+            <!-- Next alert badge -->
             <LinearLayout
                 android:id="@+id/next_alert_container"
                 android:layout_width="wrap_content"
@@ -69,12 +81,13 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:visibility="gone"
-                android:paddingTop="4dp"
+                android:background="@drawable/badge_accent"
+                android:layout_marginTop="8dp"
                 android:focusable="true">
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:src="@android:drawable/ic_lock_idle_alarm"
                     android:layout_marginEnd="6dp" />
 
@@ -83,49 +96,49 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/primary" />
             </LinearLayout>
 
-            <!-- View mode switcher -->
+            <!-- View mode pill buttons -->
             <LinearLayout
                 android:id="@+id/view_mode_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:paddingTop="4dp">
+                android:layout_marginTop="10dp">
 
                 <ImageButton
                     android:id="@+id/btn_view_list"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@android:drawable/ic_menu_sort_by_size"
-                    android:background="?android:selectableItemBackgroundBorderless"
-                    android:contentDescription="רשימה"
+                    android:background="@drawable/pill_button_bg"
+                    android:contentDescription="@string/view_list"
                     android:focusable="true"
-                    android:padding="6dp" />
+                    android:padding="8dp" />
 
                 <ImageButton
                     android:id="@+id/btn_view_cards"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@android:drawable/ic_menu_agenda"
-                    android:background="?android:selectableItemBackgroundBorderless"
-                    android:contentDescription="כרטיסים"
+                    android:background="@drawable/pill_button_bg"
+                    android:contentDescription="@string/view_cards"
                     android:focusable="true"
-                    android:padding="6dp"
+                    android:padding="8dp"
                     android:layout_marginStart="8dp" />
 
                 <ImageButton
                     android:id="@+id/btn_view_compact"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@android:drawable/ic_menu_view"
-                    android:background="?android:selectableItemBackgroundBorderless"
-                    android:contentDescription="קומפקטי"
+                    android:background="@drawable/pill_button_bg"
+                    android:contentDescription="@string/view_compact"
                     android:focusable="true"
-                    android:padding="6dp"
+                    android:padding="8dp"
                     android:layout_marginStart="8dp" />
             </LinearLayout>
         </LinearLayout>
@@ -138,7 +151,10 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:padding="4dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"
         android:focusable="true"
         android:nextFocusUp="@id/clock_view" />
 

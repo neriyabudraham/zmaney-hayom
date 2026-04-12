@@ -123,24 +123,26 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
                 itemView.setPadding(itemView.getPaddingLeft(), pad, itemView.getPaddingRight(), pad);
             }
 
-            // Color coding
+            // Moovidos-style color coding
             if (item.isPassed()) {
-                nameView.setTextColor(Color.parseColor("#9E9E9E"));
-                timeView.setTextColor(Color.parseColor("#9E9E9E"));
-                if (viewMode == VIEW_COMPACT) {
-                    nameView.setAlpha(0.6f);
-                    timeView.setAlpha(0.6f);
-                }
+                nameView.setTextColor(Color.parseColor("#94A3B8"));
+                timeView.setTextColor(Color.parseColor("#94A3B8"));
+                nameView.setAlpha(viewMode == VIEW_COMPACT ? 0.5f : 0.7f);
+                timeView.setAlpha(viewMode == VIEW_COMPACT ? 0.5f : 0.7f);
             } else if (item.isNext()) {
-                nameView.setTextColor(Color.parseColor("#FF6F00"));
-                timeView.setTextColor(Color.parseColor("#FF6F00"));
+                nameView.setTextColor(Color.parseColor("#2563EB"));
+                timeView.setTextColor(Color.parseColor("#2563EB"));
                 nameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getScaledSize(nameSize + 1));
-                timeView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getScaledSize(timeSize + 1));
+                timeView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getScaledSize(timeSize + 2));
                 nameView.setAlpha(1f);
                 timeView.setAlpha(1f);
+                // Highlight background for next zman
+                if (viewMode == VIEW_CARDS) {
+                    itemView.setBackgroundResource(R.drawable.card_bg_highlight);
+                }
             } else {
-                nameView.setTextColor(Color.parseColor("#212121"));
-                timeView.setTextColor(Color.parseColor("#1565C0"));
+                nameView.setTextColor(Color.parseColor("#0F172A"));
+                timeView.setTextColor(Color.parseColor("#2563EB"));
                 nameView.setAlpha(1f);
                 timeView.setAlpha(1f);
             }
