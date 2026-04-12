@@ -9,14 +9,30 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_share"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="@string/share_app"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_history"
         android:icon="@android:drawable/ic_menu_recent_history"
         android:title="@string/alert_history"
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_customize"
+        android:title="@string/customize"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_settings"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/about"
         app:showAsAction="never" />
 </menu>

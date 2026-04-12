@@ -7,6 +7,15 @@
         <item name="android:textColorPrimary">#212121</item>
         <item name="android:textColorSecondary">#757575</item>
         <item name="android:windowBackground">#FAFAFA</item>
+        <!-- Fix spinner/dropdown text visibility -->
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownStyle</item>
+        <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
+        <item name="android:listPopupWindowStyle">@style/ListPopupStyle</item>
+        <item name="popupMenuStyle">@style/PopupMenuStyle</item>
+        <item name="listPopupWindowStyle">@style/ListPopupStyle</item>
+        <!-- Focus highlighting for D-pad navigation -->
+        <item name="android:listChoiceBackgroundIndicator">?android:selectableItemBackground</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
@@ -16,6 +25,12 @@
         <item name="android:textColorPrimary">#EEEEEE</item>
         <item name="android:textColorSecondary">#BDBDBD</item>
         <item name="android:windowBackground">#121212</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle.Dark</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownStyle.Dark</item>
+        <item name="android:popupMenuStyle">@style/PopupMenuStyle.Dark</item>
+        <item name="android:listPopupWindowStyle">@style/ListPopupStyle.Dark</item>
+        <item name="popupMenuStyle">@style/PopupMenuStyle.Dark</item>
+        <item name="listPopupWindowStyle">@style/ListPopupStyle.Dark</item>
     </style>
 
     <style name="AppTheme.Alarm" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -24,53 +39,133 @@
         <item name="android:windowBackground">#FAFAFA</item>
     </style>
 
+    <!-- Spinner / Dropdown styles - LIGHT -->
+    <style name="SpinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textColor">#212121</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="SpinnerDropDownStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:textColor">#212121</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">#FFFFFF</item>
+    </style>
+
+    <style name="PopupMenuStyle" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">#FFFFFF</item>
+    </style>
+
+    <style name="ListPopupStyle" parent="Widget.MaterialComponents.ListPopupWindow">
+        <item name="android:popupBackground">#FFFFFF</item>
+    </style>
+
+    <!-- Spinner / Dropdown styles - DARK -->
+    <style name="SpinnerItemStyle.Dark" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textColor">#EEEEEE</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="SpinnerDropDownStyle.Dark" parent="android:Widget.ListView.DropDown">
+        <item name="android:textColor">#EEEEEE</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">#2D2D2D</item>
+    </style>
+
+    <style name="PopupMenuStyle.Dark" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">#2D2D2D</item>
+    </style>
+
+    <style name="ListPopupStyle.Dark" parent="Widget.MaterialComponents.ListPopupWindow">
+        <item name="android:popupBackground">#2D2D2D</item>
+    </style>
+
+    <!-- Card styles -->
     <style name="CardStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="cardCornerRadius">8dp</item>
-        <item name="cardElevation">2dp</item>
-        <item name="contentPadding">8dp</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">3dp</item>
+        <item name="contentPadding">10dp</item>
         <item name="cardUseCompatPadding">true</item>
     </style>
 
+    <!-- Text styles - scalable -->
     <style name="ZmanTimeText">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:fontFamily">monospace</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="ZmanLabelText">
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
     <style name="ClockText">
-        <item name="android:textSize">36sp</item>
+        <item name="android:textSize">42sp</item>
         <item name="android:fontFamily">monospace</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="HebrewDateText">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
     <style name="SectionHeader">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?colorPrimary</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
-        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingStart">10dp</item>
     </style>
 
     <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:textSize">13sp</item>
-        <item name="cornerRadius">4dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:minHeight">44dp</item>
     </style>
 
     <style name="SmallButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textSize">12sp</item>
-        <item name="android:minHeight">32dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:minHeight">36dp</item>
+    </style>
+
+    <!-- Focusable item style for D-pad navigation -->
+    <style name="FocusableItem">
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+    <!-- Dialog styles -->
+    <style name="AppDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:textColorPrimary">#212121</item>
+    </style>
+
+    <style name="AppDialogTheme.Dark" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:background">#2D2D2D</item>
+        <item name="android:textColorPrimary">#EEEEEE</item>
+    </style>
+
+    <!-- About styles -->
+    <style name="AboutHeaderText">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="AboutSubText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

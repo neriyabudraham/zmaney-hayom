@@ -77,12 +77,22 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.AlertViewH
                 }
             });
 
+            // Regular click opens edit/delete menu
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onLongClick(rule, position);
+                }
+            });
+
             itemView.setOnLongClickListener(v -> {
                 if (listener != null) {
                     listener.onLongClick(rule, position);
                 }
                 return true;
             });
+
+            // D-pad focus support
+            itemView.setFocusable(true);
         }
     }
 }

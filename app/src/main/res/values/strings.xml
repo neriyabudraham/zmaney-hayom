@@ -76,4 +76,44 @@
     <string name="about">אודות</string>
     <string name="version">גרסה</string>
     <string name="app_description">אפליקציית זמני היום עם שעון מעורר והתראות</string>
+
+    <!-- Customization -->
+    <string name="customize">התאמה אישית</string>
+    <string name="background_image">��מונת רקע</string>
+    <string name="choose_image">בחר תמונה</string>
+    <string name="reset_default">חזור לברי��ת מחדל</string>
+    <string name="custom_colors">צבעים</string>
+    <string name="primary_color">צבע ראשי</string>
+    <string name="accent_color">צבע הדגשה</string>
+    <string name="bg_color">צבע רקע</string>
+    <string name="font_size">גודל גופן</string>
+    <string name="app_icon">אייקון אפליקציה</string>
+    <string name="choose_icon">בחר אייקון</string>
+    <string name="pick_color">בחר צבע</string>
+    <string name="preset_colors">צבעים מוכנים</string>
+
+    <!-- Ringtone -->
+    <string name="ringtone">צלצול</string>
+    <string name="choose_ringtone">בחר צלצול</string>
+    <string name="device_ringtones">צלצולי המכשיר</string>
+    <string name="upload_ringtone">העלה קובץ צלצול</string>
+    <string name="record_ringtone">הקלט צלצול</string>
+    <string name="recording">מקליט…</string>
+    <string name="stop_recording">עצור הקלטה</string>
+    <string name="play">נגן</string>
+    <string name="stop">עצור</string>
+    <string name="custom_ringtone">צלצול מותאם</string>
+    <string name="default_ringtone">צלצול ברירת מחדל</string>
+
+    <!-- View modes -->
+    <string name="view_list">רשימה</string>
+    <string name="view_cards">כרטיסים</string>
+    <string name="view_compact">קומפקטי</string>
+
+    <!-- Share -->
+    <string name="share_app">שתף אפליקציה</string>
+    <string name="share_text">הורד את אפליקציית זמני היום - שעון מעורר לזמנ�� תפילה!\nhttps://github.com/neriyabudraham/zmaney-hayom</string>
+
+    <!-- Edit alert -->
+    <string name="edit_alert">ערוך התראה</string>
 </resources>

@@ -4,31 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/main_root"
     android:background="?android:windowBackground">
 
+    <!-- Toolbar with keyboard focus -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="48dp"
         android:background="?colorPrimary"
         app:titleTextColor="@color/white"
         app:title="@string/app_name"
         app:titleTextAppearance="@style/ZmanLabelText"
-        app:menu="@menu/main_menu" />
+        app:menu="@menu/main_menu"
+        android:focusable="true"
+        android:nextFocusDown="@id/clock_view" />
 
+    <!-- Clock + Date Header Card -->
     <androidx.cardview.widget.CardView
+        android:id="@+id/header_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="2dp">
+        android:layout_margin="6dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="8dp">
+            android:padding="10dp">
 
             <TextClock
                 android:id="@+id/clock_view"
@@ -37,22 +43,25 @@
                 style="@style/ClockText"
                 android:format24Hour="HH:mm:ss"
                 android:format12Hour="HH:mm:ss"
-                android:textColor="?colorPrimary" />
+                android:textColor="?colorPrimary"
+                android:focusable="true"
+                android:nextFocusDown="@id/zmanim_list" />
 
             <TextView
                 android:id="@+id/gregorian_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="?android:textColorSecondary" />
+                android:textSize="13sp"
+                android:textColor="?android:textColorSecondary"
+                android:paddingTop="2dp" />
 
             <TextView
                 android:id="@+id/hebrew_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/HebrewDateText"
-                android:textSize="13sp" />
+                style="@style/HebrewDateText" />
 
+            <!-- Next alert indicator -->
             <LinearLayout
                 android:id="@+id/next_alert_container"
                 android:layout_width="wrap_content"
@@ -60,30 +69,77 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:visibility="gone"
-                android:paddingTop="2dp">
+                android:paddingTop="4dp"
+                android:focusable="true">
 
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
                     android:src="@android:drawable/ic_lock_idle_alarm"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginEnd="6dp" />
 
                 <TextView
                     android:id="@+id/next_alert_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"
-                    android:textColor="@color/accent" />
+                    android:textSize="12sp"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- View mode switcher -->
+            <LinearLayout
+                android:id="@+id/view_mode_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="4dp">
+
+                <ImageButton
+                    android:id="@+id/btn_view_list"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@android:drawable/ic_menu_sort_by_size"
+                    android:background="?android:selectableItemBackgroundBorderless"
+                    android:contentDescription="רשימה"
+                    android:focusable="true"
+                    android:padding="6dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_view_cards"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@android:drawable/ic_menu_agenda"
+                    android:background="?android:selectableItemBackgroundBorderless"
+                    android:contentDescription="כרטיסים"
+                    android:focusable="true"
+                    android:padding="6dp"
+                    android:layout_marginStart="8dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_view_compact"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@android:drawable/ic_menu_view"
+                    android:background="?android:selectableItemBackgroundBorderless"
+                    android:contentDescription="קומפקטי"
+                    android:focusable="true"
+                    android:padding="6dp"
+                    android:layout_marginStart="8dp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- Zmanim List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/zmanim_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:padding="4dp" />
+        android:padding="4dp"
+        android:focusable="true"
+        android:nextFocusUp="@id/clock_view" />
 
 </LinearLayout>

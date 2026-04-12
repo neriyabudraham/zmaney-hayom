@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:windowBackground">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?colorPrimary"
+        app:titleTextColor="@color/white"
+        app:title="@string/customize"
+        app:navigationIcon="?homeAsUpIndicator"
+        app:titleTextAppearance="@style/ZmanLabelText" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!-- Background Image Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/background_image"
+                style="@style/SectionHeader" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_pick_bg"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:text="@string/choose_image"
+                    android:textSize="13sp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:focusable="true" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_clear_bg"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:text="@string/reset_default"
+                    android:textSize="13sp"
+                    android:layout_marginStart="8dp"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:focusable="true" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/bg_preview"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:background="@color/divider_light"
+                android:visibility="gone" />
+
+            <!-- Color Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_colors"
+                style="@style/SectionHeader"
+                android:paddingTop="16dp" />
+
+            <!-- Primary Color -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?android:selectableItemBackground"
+                android:minHeight="48dp"
+                android:id="@+id/row_primary_color">
+
+                <View
+                    android:id="@+id/preview_primary_color"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/primary"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/primary_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/txt_primary_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace"
+                    android:textColor="?android:textColorSecondary" />
+            </LinearLayout>
+
+            <!-- Accent Color -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?android:selectableItemBackground"
+                android:minHeight="48dp"
+                android:id="@+id/row_accent_color">
+
+                <View
+                    android:id="@+id/preview_accent_color"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/accent"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/accent_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/txt_accent_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace"
+                    android:textColor="?android:textColorSecondary" />
+            </LinearLayout>
+
+            <!-- Background Color -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?android:selectableItemBackground"
+                android:minHeight="48dp"
+                android:id="@+id/row_bg_color">
+
+                <View
+                    android:id="@+id/preview_bg_color"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@color/background_light"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/bg_color"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/txt_bg_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace"
+                    android:textColor="?android:textColorSecondary" />
+            </LinearLayout>
+
+            <!-- Reset Colors -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_reset_colors"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="@string/reset_default"
+                android:textSize="13sp"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:focusable="true" />
+
+            <!-- Font Size Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/font_size"
+                style="@style/SectionHeader"
+                android:paddingTop="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="א"
+                    android:textSize="12sp" />
+
+                <SeekBar
+                    android:id="@+id/seekbar_font_size"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:min="0"
+                    android:max="4"
+                    android:progress="2"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:focusable="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="א"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/font_size_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="טקסט לדוגמה - 14:30"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="14sp" />
+
+            <!-- App Icon Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_icon"
+                style="@style/SectionHeader"
+                android:paddingTop="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_pick_icon"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:text="@string/choose_icon"
+                android:textSize="13sp"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:focusable="true" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

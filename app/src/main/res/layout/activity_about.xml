@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:windowBackground">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?colorPrimary"
+        app:titleTextColor="@color/white"
+        app:title="@string/about"
+        app:navigationIcon="?homeAsUpIndicator"
+        app:titleTextAppearance="@style/ZmanLabelText" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="24dp">
+
+            <ImageView
+                android:id="@+id/about_icon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                style="@style/AboutHeaderText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_description"
+                style="@style/AboutSubText"
+                android:paddingTop="8dp" />
+
+            <TextView
+                android:id="@+id/about_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="?android:textColorSecondary"
+                android:paddingTop="4dp" />
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider_light"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Developer info -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="פיתוח"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="?colorPrimary"
+                android:paddingBottom="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="דביר אבודרהם"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary" />
+
+            <!-- Email -->
+            <LinearLayout
+                android:id="@+id/email_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="12dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?android:selectableItemBackground"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@android:drawable/ic_dialog_email"
+                    android:layout_marginEnd="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dvir.abu11@gmail.com"
+                    android:textSize="15sp"
+                    android:textColor="?colorPrimary"
+                    android:autoLink="email" />
+            </LinearLayout>
+
+            <!-- Phone -->
+            <LinearLayout
+                android:id="@+id/phone_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:background="?android:selectableItemBackground"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@android:drawable/ic_menu_call"
+                    android:layout_marginEnd="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="050-789-9701"
+                    android:textSize="15sp"
+                    android:textColor="?colorPrimary"
+                    android:autoLink="phone" />
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider_light"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Tech info -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="חישובי הזמנים מבוססים על ספריית KosherJava"
+                android:textSize="12sp"
+                android:textColor="?android:textColorSecondary"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="© 2026 כל הזכויות שמורות"
+                android:textSize="12sp"
+                android:textColor="?android:textColorSecondary"
+                android:gravity="center"
+                android:paddingTop="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
