@@ -7,153 +7,113 @@
     android:orientation="vertical"
     android:background="@color/background_light">
 
-    <!-- Premium gradient toolbar -->
+    <!-- Compact gradient toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="48dp"
         android:background="@drawable/toolbar_bg"
         android:elevation="0dp"
         app:titleTextColor="@color/white"
         app:title="@string/app_name"
         app:titleTextAppearance="@style/ZmanLabelText"
         app:menu="@menu/main_menu"
-        android:focusable="true"
-        android:nextFocusDown="@id/clock_view" />
+        android:focusable="true" />
 
-    <!-- Hero Clock Card -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/header_card"
+    <!-- Compact Clock Header -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="4dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/white">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <!-- Clock -->
+        <TextClock
+            android:id="@+id/clock_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:fontFamily="sans-serif-light"
+            android:format24Hour="HH:mm"
+            android:format12Hour="HH:mm"
+            android:textColor="@color/primary" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingTop="20dp"
-            android:paddingBottom="12dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
-
-            <TextClock
-                android:id="@+id/clock_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/ClockText"
-                android:format24Hour="HH:mm:ss"
-                android:format12Hour="HH:mm:ss"
-                android:textColor="@color/primary"
-                android:focusable="true"
-                android:nextFocusDown="@id/zmanim_list" />
+            android:paddingStart="12dp">
 
             <TextView
                 android:id="@+id/gregorian_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:fontFamily="sans-serif"
-                android:textColor="@color/text_secondary_light"
-                android:paddingTop="4dp" />
+                android:textColor="@color/text_secondary_light" />
 
             <TextView
                 android:id="@+id/hebrew_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/HebrewDateText"
-                android:paddingTop="2dp" />
-
-            <!-- Next alert badge -->
-            <LinearLayout
-                android:id="@+id/next_alert_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:visibility="gone"
-                android:background="@drawable/badge_accent"
-                android:layout_marginTop="8dp"
-                android:focusable="true">
-
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:src="@android:drawable/ic_lock_idle_alarm"
-                    android:layout_marginEnd="6dp" />
-
-                <TextView
-                    android:id="@+id/next_alert_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:fontFamily="sans-serif-medium"
-                    android:textColor="@color/primary" />
-            </LinearLayout>
-
-            <!-- View mode pill buttons -->
-            <LinearLayout
-                android:id="@+id/view_mode_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="10dp">
-
-                <ImageButton
-                    android:id="@+id/btn_view_list"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@android:drawable/ic_menu_sort_by_size"
-                    android:background="@drawable/pill_button_bg"
-                    android:contentDescription="@string/view_list"
-                    android:focusable="true"
-                    android:padding="8dp" />
-
-                <ImageButton
-                    android:id="@+id/btn_view_cards"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@android:drawable/ic_menu_agenda"
-                    android:background="@drawable/pill_button_bg"
-                    android:contentDescription="@string/view_cards"
-                    android:focusable="true"
-                    android:padding="8dp"
-                    android:layout_marginStart="8dp" />
-
-                <ImageButton
-                    android:id="@+id/btn_view_compact"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@android:drawable/ic_menu_view"
-                    android:background="@drawable/pill_button_bg"
-                    android:contentDescription="@string/view_compact"
-                    android:focusable="true"
-                    android:padding="8dp"
-                    android:layout_marginStart="8dp" />
-            </LinearLayout>
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/text_primary_light" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
-    <!-- Zmanim List -->
+        <!-- Next alert badge -->
+        <LinearLayout
+            android:id="@+id/next_alert_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:visibility="gone"
+            android:background="@drawable/badge_accent"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@android:drawable/ic_lock_idle_alarm"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:id="@+id/next_alert_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/primary" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Thin divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_light" />
+
+    <!-- Zmanim List - full remaining space -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/zmanim_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingTop="4dp"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="6dp"
         android:paddingBottom="8dp"
+        android:scrollbars="vertical"
+        android:overScrollMode="always"
         android:focusable="true"
-        android:nextFocusUp="@id/clock_view" />
+        android:nestedScrollingEnabled="true" />
 
 </LinearLayout>

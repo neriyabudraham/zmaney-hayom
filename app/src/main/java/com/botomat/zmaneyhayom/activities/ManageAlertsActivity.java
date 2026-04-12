@@ -104,15 +104,15 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
         String[] zmanNames = getResources().getStringArray(R.array.zman_entries);
         String[] zmanValues = getResources().getStringArray(R.array.zman_values);
         ArrayAdapter<String> zmanAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, zmanNames);
-        zmanAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.spinner_item, zmanNames);
+        zmanAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         zmanSpinner.setAdapter(zmanAdapter);
 
         String[] offsetTypes = getResources().getStringArray(R.array.offset_type_entries);
         String[] offsetTypeValues = getResources().getStringArray(R.array.offset_type_values);
         ArrayAdapter<String> offsetAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, offsetTypes);
-        offsetAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.spinner_item, offsetTypes);
+        offsetAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         offsetSpinner.setAdapter(offsetAdapter);
 
         // Pre-fill for edit

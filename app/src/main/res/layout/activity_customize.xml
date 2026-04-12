@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:windowBackground">
+    android:background="@color/background_light">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="?colorPrimary"
+        android:background="@drawable/toolbar_bg"
         app:titleTextColor="@color/white"
         app:title="@string/customize"
         app:navigationIcon="?homeAsUpIndicator"
@@ -26,58 +26,12 @@
             android:orientation="vertical"
             android:padding="12dp">
 
-            <!-- Background Image Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/background_image"
-                style="@style/SectionHeader" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_pick_bg"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:text="@string/choose_image"
-                    android:textSize="13sp"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:focusable="true" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_clear_bg"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:text="@string/reset_default"
-                    android:textSize="13sp"
-                    android:layout_marginStart="8dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:focusable="true" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/bg_preview"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:background="@color/divider_light"
-                android:visibility="gone" />
-
             <!-- Color Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/custom_colors"
-                style="@style/SectionHeader"
-                android:paddingTop="16dp" />
+                style="@style/SectionHeader" />
 
             <!-- Primary Color -->
             <LinearLayout
@@ -104,7 +58,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/primary_color"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textColor="@color/text_primary_light" />
 
                 <TextView
                     android:id="@+id/txt_primary_color"
@@ -112,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:fontFamily="monospace"
-                    android:textColor="?android:textColorSecondary" />
+                    android:textColor="@color/text_secondary_light" />
             </LinearLayout>
 
             <!-- Accent Color -->
@@ -140,7 +95,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/accent_color"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textColor="@color/text_primary_light" />
 
                 <TextView
                     android:id="@+id/txt_accent_color"
@@ -148,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:fontFamily="monospace"
-                    android:textColor="?android:textColorSecondary" />
+                    android:textColor="@color/text_secondary_light" />
             </LinearLayout>
 
             <!-- Background Color -->
@@ -176,7 +132,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/bg_color"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:textColor="@color/text_primary_light" />
 
                 <TextView
                     android:id="@+id/txt_bg_color"
@@ -184,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:fontFamily="monospace"
-                    android:textColor="?android:textColorSecondary" />
+                    android:textColor="@color/text_secondary_light" />
             </LinearLayout>
 
             <!-- Reset Colors -->
@@ -194,7 +151,9 @@
                 android:layout_height="44dp"
                 android:text="@string/reset_default"
                 android:textSize="13sp"
+                android:textAllCaps="false"
                 android:layout_marginTop="8dp"
+                app:cornerRadius="100dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:focusable="true" />
 
@@ -217,7 +176,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="א"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary_light" />
 
                 <SeekBar
                     android:id="@+id/seekbar_font_size"
@@ -234,7 +194,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="א"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:textColor="@color/text_secondary_light" />
             </LinearLayout>
 
             <TextView
@@ -244,25 +205,8 @@
                 android:text="טקסט לדוגמה - 14:30"
                 android:gravity="center"
                 android:padding="8dp"
-                android:textSize="14sp" />
-
-            <!-- App Icon Section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_icon"
-                style="@style/SectionHeader"
-                android:paddingTop="16dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_pick_icon"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:text="@string/choose_icon"
-                android:textSize="13sp"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:focusable="true" />
+                android:textSize="14sp"
+                android:textColor="@color/text_primary_light" />
 
         </LinearLayout>
     </ScrollView>

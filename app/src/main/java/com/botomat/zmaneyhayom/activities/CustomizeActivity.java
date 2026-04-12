@@ -1,18 +1,12 @@
 package com.botomat.zmaneyhayom.activities;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -24,19 +18,11 @@ import com.botomat.zmaneyhayom.R;
 import com.botomat.zmaneyhayom.utils.ThemeHelper;
 import com.google.android.material.appbar.MaterialToolbar;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-
 public class CustomizeActivity extends AppCompatActivity {
 
-    private static final int PICK_BG_IMAGE = 1001;
-    private static final int PICK_ICON_IMAGE = 1002;
     private SharedPreferences prefs;
-
     private View previewPrimary, previewAccent, previewBg;
     private TextView txtPrimary, txtAccent, txtBg;
-    private ImageView bgPreview;
     private TextView fontPreview;
 
     @Override
@@ -56,7 +42,6 @@ public class CustomizeActivity extends AppCompatActivity {
         txtPrimary = findViewById(R.id.txt_primary_color);
         txtAccent = findViewById(R.id.txt_accent_color);
         txtBg = findViewById(R.id.txt_bg_color);
-        bgPreview = findViewById(R.id.bg_preview);
         fontPreview = findViewById(R.id.font_size_preview);
 
         loadCurrentValues();
@@ -64,9 +49,9 @@ public class CustomizeActivity extends AppCompatActivity {
     }
 
     private void loadCurrentValues() {
-        String primaryColor = prefs.getString("custom_primary_color", "#1565C0");
-        String accentColor = prefs.getString("custom_accent_color", "#FF6F00");
-        String bgColor = prefs.getString("custom_bg_color", "#FAFAFA");
+        String primaryColor = prefs.getString("custom_primary_color", "#2563EB");
+        String accentColor = prefs.getString("custom_accent_color", "#6366F1");
+        String bgColor = prefs.getString("custom_bg_color", "#F0F4F8");
         int fontScale = prefs.getInt("font_scale", 2);
 
         setColorPreview(previewPrimary, txtPrimary, primaryColor);
@@ -76,41 +61,18 @@ public class CustomizeActivity extends AppCompatActivity {
         SeekBar fontSeekbar = findViewById(R.id.seekbar_font_size);
         fontSeekbar.setProgress(fontScale);
         updateFontPreview(fontScale);
-
-        // Load BG image preview
-        File bgFile = new File(getFilesDir(), "custom_bg.jpg");
-        if (bgFile.exists()) {
-            bgPreview.setVisibility(View.VISIBLE);
-            bgPreview.setImageBitmap(BitmapFactory.decodeFile(bgFile.getAbsolutePath()));
-        }
     }
 
     private void setupListeners() {
-        // Background image
-        findViewById(R.id.btn_pick_bg).setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_image)), PICK_BG_IMAGE);
-        });
-
-        findViewById(R.id.btn_clear_bg).setOnClickListener(v -> {
-            File bgFile = new File(getFilesDir(), "custom_bg.jpg");
-            if (bgFile.exists()) bgFile.delete();
-            prefs.edit().remove("has_custom_bg").apply();
-            bgPreview.setVisibility(View.GONE);
-        });
-
-        // Colors
         findViewById(R.id.row_primary_color).setOnClickListener(v ->
-                showColorPicker("custom_primary_color", "#1565C0", previewPrimary, txtPrimary));
+                showColorPicker("custom_primary_color", "#2563EB", previewPrimary, txtPrimary));
 
         findViewById(R.id.row_accent_color).setOnClickListener(v ->
-                showColorPicker("custom_accent_color", "#FF6F00", previewAccent, txtAccent));
+                showColorPicker("custom_accent_color", "#6366F1", previewAccent, txtAccent));
 
         findViewById(R.id.row_bg_color).setOnClickListener(v ->
-                showColorPicker("custom_bg_color", "#FAFAFA", previewBg, txtBg));
+                showColorPicker("custom_bg_color", "#F0F4F8", previewBg, txtBg));
 
-        // Reset colors
         findViewById(R.id.btn_reset_colors).setOnClickListener(v -> {
             prefs.edit()
                     .remove("custom_primary_color")
@@ -120,7 +82,6 @@ public class CustomizeActivity extends AppCompatActivity {
             loadCurrentValues();
         });
 
-        // Font size
         SeekBar fontSeekbar = findViewById(R.id.seekbar_font_size);
         fontSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -130,13 +91,6 @@ public class CustomizeActivity extends AppCompatActivity {
             }
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
-        });
-
-        // App icon
-        findViewById(R.id.btn_pick_icon).setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_icon)), PICK_ICON_IMAGE);
         });
     }
 
@@ -160,12 +114,11 @@ public class CustomizeActivity extends AppCompatActivity {
         colorPreview.setBackgroundColor(color);
         editHex.setText(currentColor);
 
-        // Add preset colors
         int[] presets = {
-            0xFF1565C0, 0xFF0D47A1, 0xFF2196F3, 0xFF00BCD4,
-            0xFF4CAF50, 0xFF8BC34A, 0xFFFF6F00, 0xFFFF5722,
-            0xFFF44336, 0xFFE91E63, 0xFF9C27B0, 0xFF673AB7,
-            0xFF212121, 0xFF795548, 0xFF607D8B, 0xFFFFFFFF
+            0xFF2563EB, 0xFF1D4ED8, 0xFF3B82F6, 0xFF06B6D4,
+            0xFF059669, 0xFF84CC16, 0xFFF59E0B, 0xFFEF4444,
+            0xFFEC4899, 0xFF8B5CF6, 0xFF6366F1, 0xFF0F172A,
+            0xFF475569, 0xFF94A3B8, 0xFFF0F4F8, 0xFFFFFFFF
         };
         android.widget.LinearLayout presetsContainer = dialogView.findViewById(R.id.preset_colors);
         for (int preset : presets) {
@@ -210,9 +163,7 @@ public class CustomizeActivity extends AppCompatActivity {
                         Color.parseColor(hex);
                         prefs.edit().putString(prefKey, hex).apply();
                         setColorPreview(preview, hexText, hex);
-                    } catch (Exception e) {
-                        // Invalid color, ignore
-                    }
+                    } catch (Exception ignored) {}
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show();
@@ -222,9 +173,9 @@ public class CustomizeActivity extends AppCompatActivity {
         try {
             GradientDrawable shape = new GradientDrawable();
             shape.setShape(GradientDrawable.RECTANGLE);
-            shape.setCornerRadius(4);
+            shape.setCornerRadius(8);
             shape.setColor(Color.parseColor(colorHex));
-            shape.setStroke(1, Color.GRAY);
+            shape.setStroke(2, Color.parseColor("#E2E8F0"));
             preview.setBackground(shape);
             hexText.setText(colorHex);
         } catch (Exception ignored) {}
@@ -233,38 +184,5 @@ public class CustomizeActivity extends AppCompatActivity {
     private void updateFontPreview(int scale) {
         float[] sizes = {11f, 13f, 15f, 17f, 20f};
         fontPreview.setTextSize(sizes[Math.min(scale, sizes.length - 1)]);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK || data == null) return;
-
-        Uri uri = data.getData();
-        if (uri == null) return;
-
-        try {
-            InputStream is = getContentResolver().openInputStream(uri);
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-            is.close();
-
-            if (requestCode == PICK_BG_IMAGE) {
-                File file = new File(getFilesDir(), "custom_bg.jpg");
-                FileOutputStream fos = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fos);
-                fos.close();
-                prefs.edit().putBoolean("has_custom_bg", true).apply();
-                bgPreview.setVisibility(View.VISIBLE);
-                bgPreview.setImageBitmap(bitmap);
-            } else if (requestCode == PICK_ICON_IMAGE) {
-                File file = new File(getFilesDir(), "custom_icon.png");
-                FileOutputStream fos = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.close();
-                prefs.edit().putBoolean("has_custom_icon", true).apply();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
