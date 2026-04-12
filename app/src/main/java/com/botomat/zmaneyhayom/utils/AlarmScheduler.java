@@ -22,13 +22,13 @@ import java.util.Locale;
 public class AlarmScheduler {
 
     private static final String TAG = "AlarmScheduler";
-    private static final String EXTRA_RULE_ID = "rule_id";
-    private static final String EXTRA_ZMAN_TYPE = "zman_type";
-    private static final String EXTRA_ZMAN_TIME = "zman_time";
-    private static final String EXTRA_OFFSET_TYPE = "offset_type";
-    private static final String EXTRA_OFFSET_MINUTES = "offset_minutes";
-    private static final String EXTRA_SOUND = "sound_enabled";
-    private static final String EXTRA_VIBRATE = "vibrate_enabled";
+    public static final String EXTRA_RULE_ID = "rule_id";
+    public static final String EXTRA_ZMAN_TYPE = "zman_type";
+    public static final String EXTRA_ZMAN_TIME = "zman_time";
+    public static final String EXTRA_OFFSET_TYPE = "offset_type";
+    public static final String EXTRA_OFFSET_MINUTES = "offset_minutes";
+    public static final String EXTRA_SOUND = "sound_enabled";
+    public static final String EXTRA_VIBRATE = "vibrate_enabled";
 
     public static void scheduleAllAlarms(Context context) {
         DatabaseHelper db = DatabaseHelper.getInstance(context);
