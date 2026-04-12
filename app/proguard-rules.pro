@@ -1,0 +1,3 @@
+-keep class com.kosherjava.zmanim.** { *; }
+-keep class com.botomat.zmaneyhayom.models.** { *; }
+-keepattributes *Annotation*

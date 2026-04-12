@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#1565C0</color>
+    <color name="primary_dark">#0D47A1</color>
+    <color name="accent">#FF6F00</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="background_light">#FAFAFA</color>
+    <color name="background_dark">#121212</color>
+    <color name="card_light">#FFFFFF</color>
+    <color name="card_dark">#1E1E1E</color>
+    <color name="text_primary_light">#212121</color>
+    <color name="text_primary_dark">#EEEEEE</color>
+    <color name="text_secondary_light">#757575</color>
+    <color name="text_secondary_dark">#BDBDBD</color>
+    <color name="divider_light">#E0E0E0</color>
+    <color name="divider_dark">#333333</color>
+    <color name="zman_passed">#9E9E9E</color>
+    <color name="zman_current">#FF6F00</color>
+    <color name="zman_upcoming">#1565C0</color>
+    <color name="alarm_red">#D32F2F</color>
+    <color name="success_green">#388E3C</color>
+    <color name="alert_active">#4CAF50</color>
+    <color name="alert_inactive">#9E9E9E</color>
+</resources>

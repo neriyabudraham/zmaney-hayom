@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_margin">8dp</dimen>
+    <dimen name="card_margin">4dp</dimen>
+    <dimen name="card_padding">6dp</dimen>
+    <dimen name="clock_text_size">36sp</dimen>
+    <dimen name="date_text_size">14sp</dimen>
+    <dimen name="zman_text_size">13sp</dimen>
+    <dimen name="zman_time_size">14sp</dimen>
+    <dimen name="section_header_size">15sp</dimen>
+    <dimen name="toolbar_height">42dp</dimen>
+    <dimen name="icon_size">20dp</dimen>
+    <dimen name="small_icon_size">16dp</dimen>
+    <dimen name="list_item_height">40dp</dimen>
+    <dimen name="button_height">36dp</dimen>
+</resources>

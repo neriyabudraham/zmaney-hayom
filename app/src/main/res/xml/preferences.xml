@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/theme">
+        <ListPreference
+            android:key="theme_mode"
+            android:title="@string/theme"
+            android:defaultValue="light"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_values" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/location">
+        <ListPreference
+            android:key="city"
+            android:title="@string/select_city"
+            android:defaultValue="jerusalem"
+            android:entries="@array/city_entries"
+            android:entryValues="@array/city_values" />
+
+        <EditTextPreference
+            android:key="custom_latitude"
+            android:title="@string/latitude"
+            android:defaultValue="31.7683" />
+
+        <EditTextPreference
+            android:key="custom_longitude"
+            android:title="@string/longitude"
+            android:defaultValue="35.2137" />
+
+        <EditTextPreference
+            android:key="custom_elevation"
+            android:title="@string/elevation"
+            android:defaultValue="800" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/dst_settings">
+        <ListPreference
+            android:key="dst_mode"
+            android:title="@string/dst_settings"
+            android:defaultValue="auto"
+            android:entries="@array/dst_entries"
+            android:entryValues="@array/dst_values" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/alarm">
+        <ListPreference
+            android:key="snooze_duration"
+            android:title="@string/snooze_minutes"
+            android:defaultValue="5"
+            android:entries="@array/snooze_entries"
+            android:entryValues="@array/snooze_values" />
+
+        <SwitchPreferenceCompat
+            android:key="vibrate_enabled"
+            android:title="@string/vibrate"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

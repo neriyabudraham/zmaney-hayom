@@ -1,0 +1,45 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 33
+
+    defaultConfig {
+        applicationId "com.botomat.zmaneyhayom"
+        minSdkVersion 19
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0.0"
+
+        resConfigs "he", "en"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.recyclerview:recyclerview:1.3.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'com.kosherjava:zmanim:2.5.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+}

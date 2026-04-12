@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="theme_entries">
+        <item>בהיר</item>
+        <item>כהה</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+
+    <string-array name="city_entries">
+        <item>ירושלים</item>
+        <item>תל אביב</item>
+        <item>חיפה</item>
+        <item>באר שבע</item>
+        <item>מותאם אישית</item>
+    </string-array>
+    <string-array name="city_values">
+        <item>jerusalem</item>
+        <item>tel_aviv</item>
+        <item>haifa</item>
+        <item>beer_sheva</item>
+        <item>custom</item>
+    </string-array>
+
+    <string-array name="dst_entries">
+        <item>אוטומטי</item>
+        <item>שעון קיץ</item>
+        <item>שעון חורף</item>
+    </string-array>
+    <string-array name="dst_values">
+        <item>auto</item>
+        <item>summer</item>
+        <item>winter</item>
+    </string-array>
+
+    <string-array name="snooze_entries">
+        <item>3 דקות</item>
+        <item>5 דקות</item>
+        <item>10 דקות</item>
+        <item>15 דקות</item>
+    </string-array>
+    <string-array name="snooze_values">
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+    </string-array>
+
+    <string-array name="offset_type_entries">
+        <item>בזמן</item>
+        <item>דקות לפני</item>
+        <item>דקות אחרי</item>
+    </string-array>
+    <string-array name="offset_type_values">
+        <item>at_time</item>
+        <item>minutes_before</item>
+        <item>minutes_after</item>
+    </string-array>
+
+    <string-array name="zman_entries">
+        <item>עלות השחר</item>
+        <item>משיכיר</item>
+        <item>הנץ החמה</item>
+        <item>סוף זמן ק״ש (מג״א)</item>
+        <item>סוף זמן ק״ש (גר״א)</item>
+        <item>סוף זמן תפילה (מג״א)</item>
+        <item>סוף זמן תפילה (גר״א)</item>
+        <item>חצות היום</item>
+        <item>מנחה גדולה</item>
+        <item>מנחה קטנה</item>
+        <item>פלג המנחה</item>
+        <item>שקיעה</item>
+        <item>צאת הכוכבים</item>
+        <item>צאת ר״ת</item>
+        <item>חצות הלילה</item>
+    </string-array>
+    <string-array name="zman_values">
+        <item>ALOT</item>
+        <item>MISHEYAKIR</item>
+        <item>HANETZ</item>
+        <item>SOF_SHMA_MGA</item>
+        <item>SOF_SHMA_GRA</item>
+        <item>SOF_TFILA_MGA</item>
+        <item>SOF_TFILA_GRA</item>
+        <item>CHATZOT</item>
+        <item>MINCHA_GEDOLA</item>
+        <item>MINCHA_KETANA</item>
+        <item>PLAG_MINCHA</item>
+        <item>SHKIA</item>
+        <item>TZEIT</item>
+        <item>TZEIT_RT</item>
+        <item>CHATZOT_LAYLA</item>
+    </string-array>
+</resources>
