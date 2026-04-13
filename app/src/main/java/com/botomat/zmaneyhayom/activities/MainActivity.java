@@ -95,12 +95,22 @@ public class MainActivity extends AppCompatActivity {
         countdownTimer = findViewById(R.id.countdown_timer);
 
         ImageButton countdownClose = findViewById(R.id.countdown_close);
-        countdownClose.setOnClickListener(v -> hideCountdown());
+        countdownClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideCountdown();
+            }
+        });
     }
 
     private void setupToolbar() {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(v -> showCustomMenu());
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCustomMenu();
+            }
+        });
     }
 
     private void showCustomMenu() {
@@ -120,30 +130,32 @@ public class MainActivity extends AppCompatActivity {
             window.getAttributes().y = 52;
         }
 
-        dialogView.findViewById(R.id.menu_alerts).setOnClickListener(v -> {
-            dialog.dismiss();
-            startActivity(new Intent(this, ManageAlertsActivity.class));
-        });
-        dialogView.findViewById(R.id.menu_history).setOnClickListener(v -> {
-            dialog.dismiss();
-            startActivity(new Intent(this, AlertHistoryActivity.class));
-        });
-        dialogView.findViewById(R.id.menu_customize).setOnClickListener(v -> {
-            dialog.dismiss();
-            startActivity(new Intent(this, CustomizeActivity.class));
-        });
-        dialogView.findViewById(R.id.menu_settings).setOnClickListener(v -> {
-            dialog.dismiss();
-            startActivity(new Intent(this, SettingsActivity.class));
-        });
-        dialogView.findViewById(R.id.menu_share).setOnClickListener(v -> {
-            dialog.dismiss();
-            shareApp();
-        });
-        dialogView.findViewById(R.id.menu_about).setOnClickListener(v -> {
-            dialog.dismiss();
-            startActivity(new Intent(this, AboutActivity.class));
-        });
+        View.OnClickListener menuClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                int id = v.getId();
+                if (id == R.id.menu_alerts) {
+                    startActivity(new Intent(MainActivity.this, ManageAlertsActivity.class));
+                } else if (id == R.id.menu_history) {
+                    startActivity(new Intent(MainActivity.this, AlertHistoryActivity.class));
+                } else if (id == R.id.menu_customize) {
+                    startActivity(new Intent(MainActivity.this, CustomizeActivity.class));
+                } else if (id == R.id.menu_settings) {
+                    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                } else if (id == R.id.menu_share) {
+                    shareApp();
+                } else if (id == R.id.menu_about) {
+                    startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                }
+            }
+        };
+        dialogView.findViewById(R.id.menu_alerts).setOnClickListener(menuClick);
+        dialogView.findViewById(R.id.menu_history).setOnClickListener(menuClick);
+        dialogView.findViewById(R.id.menu_customize).setOnClickListener(menuClick);
+        dialogView.findViewById(R.id.menu_settings).setOnClickListener(menuClick);
+        dialogView.findViewById(R.id.menu_share).setOnClickListener(menuClick);
+        dialogView.findViewById(R.id.menu_about).setOnClickListener(menuClick);
 
         dialog.show();
     }
@@ -157,9 +169,12 @@ public class MainActivity extends AppCompatActivity {
         adapter.setFontScale(fontScale);
 
         // Click on zman to show countdown
-        adapter.setOnZmanClickListener((zmanItem) -> {
-            if (zmanItem.getTime() != null && !zmanItem.isPassed()) {
-                showCountdown(zmanItem.getName(), zmanItem.getTime());
+        adapter.setOnZmanClickListener(new ZmanimAdapter.OnZmanClickListener() {
+            @Override
+            public void onZmanClick(ZmanItem zmanItem) {
+                if (zmanItem.getTime() != null && !zmanItem.isPassed()) {
+                    showCountdown(zmanItem.getName(), zmanItem.getTime());
+                }
             }
         });
 
@@ -182,7 +197,9 @@ public class MainActivity extends AppCompatActivity {
                 long diff = countdownTarget.getTime() - System.currentTimeMillis();
                 if (diff <= 0) {
                     countdownTimer.setText("הגיע הזמן!");
-                    handler.postDelayed(() -> hideCountdown(), 3000);
+                    handler.postDelayed(new Runnable() {
+                        @Override public void run() { hideCountdown(); }
+                    }, 3000);
                     return;
                 }
                 long hours = diff / (1000 * 60 * 60);

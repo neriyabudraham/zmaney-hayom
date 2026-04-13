@@ -157,9 +157,12 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
             }
 
             // Click to show countdown
-            itemView.setOnClickListener(v -> {
-                if (clickListener != null) {
-                    clickListener.onZmanClick(item);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (clickListener != null) {
+                        clickListener.onZmanClick(item);
+                    }
                 }
             });
         }
