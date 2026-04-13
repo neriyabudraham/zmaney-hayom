@@ -103,18 +103,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                 mp.prepare();
                 mp.start();
                 // Stop after 10 seconds
-                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer m) { m.release(); }
-                });
-                new android.os.Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (mp.isPlaying()) mp.stop();
-                            mp.release();
-                        } catch (Exception ignored) {}
-                    }
+                mp.setOnCompletionListener(MediaPlayer::release);
+                new android.os.Handler().postDelayed(() -> {
+                    try {
+                        if (mp.isPlaying()) mp.stop();
+                        mp.release();
+                    } catch (Exception ignored) {}
                 }, 10000);
             } catch (Exception e) {
                 Log.e(TAG, "Error playing alarm", e);

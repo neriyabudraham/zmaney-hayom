@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@color/background_light">
 
-    <!-- Premium gradient toolbar -->
+    <!-- Compact gradient toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -17,10 +17,10 @@
         app:titleTextColor="@color/white"
         app:title="@string/app_name"
         app:titleTextAppearance="@style/ZmanLabelText"
-        app:navigationIcon="@android:drawable/ic_menu_more"
+        app:navigationIcon="@android:drawable/ic_menu_sort_alphabetically"
         android:focusable="true" />
 
-    <!-- Clock + Date row -->
+    <!-- Compact Clock Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,17 +29,18 @@
         android:background="@color/white"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
-        <!-- Clock with seconds, bold modern -->
+        <!-- Clock -->
         <TextClock
             android:id="@+id/clock_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ClockText"
-            android:format24Hour="HH:mm:ss"
-            android:format12Hour="HH:mm:ss"
+            android:textSize="32sp"
+            android:fontFamily="sans-serif-light"
+            android:format24Hour="HH:mm"
+            android:format12Hour="HH:mm"
             android:textColor="@color/primary" />
 
         <LinearLayout
@@ -74,7 +75,14 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:visibility="gone"
-            android:background="@drawable/badge_accent">
+            android:background="@drawable/badge_accent"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@android:drawable/ic_lock_idle_alarm"
+                android:layout_marginEnd="4dp" />
 
             <TextView
                 android:id="@+id/next_alert_text"
@@ -86,50 +94,13 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Countdown timer bar (hidden by default) -->
-    <LinearLayout
-        android:id="@+id/countdown_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@color/highlight_bg"
-        android:padding="8dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/countdown_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="@color/text_secondary_light"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/countdown_timer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif-medium"
-            android:textStyle="bold"
-            android:textColor="@color/primary" />
-
-        <ImageButton
-            android:id="@+id/countdown_close"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@android:drawable/ic_delete"
-            android:background="?android:selectableItemBackgroundBorderless"
-            android:layout_marginStart="12dp"
-            android:contentDescription="@string/dismiss" />
-    </LinearLayout>
-
+    <!-- Thin divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/divider_light" />
 
-    <!-- Zmanim List -->
+    <!-- Zmanim List - full remaining space -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/zmanim_list"
         android:layout_width="match_parent"
