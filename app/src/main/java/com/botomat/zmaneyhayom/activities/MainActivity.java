@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.botomat.zmaneyhayom.R;
 import com.botomat.zmaneyhayom.adapters.ZmanimAdapter;
 import com.botomat.zmaneyhayom.database.DatabaseHelper;
 import com.botomat.zmaneyhayom.models.ZmanItem;
+import com.botomat.zmaneyhayom.models.ZmanType;
 import com.botomat.zmaneyhayom.utils.AlarmScheduler;
 import com.botomat.zmaneyhayom.utils.HebrewDateHelper;
 import com.botomat.zmaneyhayom.utils.ThemeHelper;
@@ -44,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout nextAlertContainer;
     private TextView nextAlertText;
     private RecyclerView zmanimList;
+
+    // Countdown
+    private LinearLayout countdownContainer;
+    private TextView countdownLabel;
+    private TextView countdownTimer;
+    private Date countdownTarget;
+    private String countdownZmanName;
+    private Runnable countdownRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
         nextAlertContainer = findViewById(R.id.next_alert_container);
         nextAlertText = findViewById(R.id.next_alert_text);
         zmanimList = findViewById(R.id.zmanim_list);
+        countdownContainer = findViewById(R.id.countdown_container);
+        countdownLabel = findViewById(R.id.countdown_label);
+        countdownTimer = findViewById(R.id.countdown_timer);
+
+        ImageButton countdownClose = findViewById(R.id.countdown_close);
+        countdownClose.setOnClickListener(v -> hideCountdown());
     }
 
     private void setupToolbar() {
@@ -94,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
         dialog.setContentView(dialogView);
 
-        // Position dialog at top with animation
         android.view.Window window = dialog.getWindow();
         if (window != null) {
             window.setLayout(android.view.WindowManager.LayoutParams.MATCH_PARENT,
@@ -102,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             window.setGravity(android.view.Gravity.TOP);
             window.setBackgroundDrawableResource(android.R.color.transparent);
             window.getAttributes().windowAnimations = android.R.style.Animation_Dialog;
-            window.getAttributes().y = 52; // below toolbar
+            window.getAttributes().y = 52;
         }
 
         dialogView.findViewById(R.id.menu_alerts).setOnClickListener(v -> {
@@ -136,13 +151,57 @@ public class MainActivity extends AppCompatActivity {
     private void setupZmanimList() {
         zmanimList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ZmanimAdapter();
-        // Always use cards view
         adapter.setViewMode(ZmanimAdapter.VIEW_CARDS);
 
         int fontScale = prefs.getInt("font_scale", 2);
         adapter.setFontScale(fontScale);
 
+        // Click on zman to show countdown
+        adapter.setOnZmanClickListener((zmanItem) -> {
+            if (zmanItem.getTime() != null && !zmanItem.isPassed()) {
+                showCountdown(zmanItem.getName(), zmanItem.getTime());
+            }
+        });
+
         zmanimList.setAdapter(adapter);
+    }
+
+    private void showCountdown(String zmanName, Date targetTime) {
+        countdownTarget = targetTime;
+        countdownZmanName = zmanName;
+        countdownLabel.setText("עד " + zmanName + ":");
+        countdownContainer.setVisibility(View.VISIBLE);
+
+        if (countdownRunnable != null) {
+            handler.removeCallbacks(countdownRunnable);
+        }
+
+        countdownRunnable = new Runnable() {
+            @Override
+            public void run() {
+                long diff = countdownTarget.getTime() - System.currentTimeMillis();
+                if (diff <= 0) {
+                    countdownTimer.setText("הגיע הזמן!");
+                    handler.postDelayed(() -> hideCountdown(), 3000);
+                    return;
+                }
+                long hours = diff / (1000 * 60 * 60);
+                long minutes = (diff / (1000 * 60)) % 60;
+                long seconds = (diff / 1000) % 60;
+                countdownTimer.setText(String.format(Locale.getDefault(),
+                        "%02d:%02d:%02d", hours, minutes, seconds));
+                handler.postDelayed(this, 1000);
+            }
+        };
+        handler.post(countdownRunnable);
+    }
+
+    private void hideCountdown() {
+        countdownContainer.setVisibility(View.GONE);
+        if (countdownRunnable != null) {
+            handler.removeCallbacks(countdownRunnable);
+            countdownRunnable = null;
+        }
     }
 
     private void updateDates() {
@@ -169,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
         Date nextAlert = AlarmScheduler.getNextAlertTime(this);
         if (nextAlert != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            nextAlertText.setText("התראה הבאה: " + sdf.format(nextAlert));
+            nextAlertText.setText(sdf.format(nextAlert));
             nextAlertContainer.setVisibility(View.VISIBLE);
         } else {
             nextAlertContainer.setVisibility(View.GONE);
@@ -206,5 +265,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         handler.removeCallbacks(updateRunnable);
+        if (countdownRunnable != null) {
+            handler.removeCallbacks(countdownRunnable);
+        }
     }
 }

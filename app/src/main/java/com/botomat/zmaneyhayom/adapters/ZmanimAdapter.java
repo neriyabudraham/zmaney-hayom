@@ -24,10 +24,15 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
     public static final int VIEW_CARDS = 1;
     public static final int VIEW_COMPACT = 2;
 
+    public interface OnZmanClickListener {
+        void onZmanClick(ZmanItem item);
+    }
+
     private List<ZmanItem> zmanim = new ArrayList<>();
     private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-    private int viewMode = VIEW_LIST;
-    private int fontScale = 2; // 0-4, default 2 (normal)
+    private int viewMode = VIEW_CARDS;
+    private int fontScale = 2;
+    private OnZmanClickListener clickListener;
 
     public void setZmanim(List<ZmanItem> zmanim) {
         this.zmanim = zmanim;
@@ -48,6 +53,10 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
         }
     }
 
+    public void setOnZmanClickListener(OnZmanClickListener listener) {
+        this.clickListener = listener;
+    }
+
     private float getScaledSize(float baseSize) {
         float[] multipliers = {0.8f, 0.9f, 1.0f, 1.15f, 1.3f};
         return baseSize * multipliers[Math.min(fontScale, multipliers.length - 1)];
@@ -61,25 +70,14 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
     @NonNull
     @Override
     public ZmanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        int layoutRes;
-        switch (viewType) {
-            case VIEW_CARDS:
-                layoutRes = R.layout.item_zman_card;
-                break;
-            case VIEW_COMPACT:
-            case VIEW_LIST:
-            default:
-                layoutRes = R.layout.item_zman;
-                break;
-        }
+        int layoutRes = viewType == VIEW_CARDS ? R.layout.item_zman_card : R.layout.item_zman;
         View view = LayoutInflater.from(parent.getContext()).inflate(layoutRes, parent, false);
         return new ZmanViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ZmanViewHolder holder, int position) {
-        ZmanItem item = zmanim.get(position);
-        holder.bind(item);
+        holder.bind(zmanim.get(position));
     }
 
     @Override
@@ -91,7 +89,7 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
         private final TextView nameView;
         private final TextView timeView;
         private final View alertIndicator;
-        private final TextView statusView; // only in card mode
+        private final TextView statusView;
 
         ZmanViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -103,59 +101,52 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
 
         void bind(ZmanItem item) {
             nameView.setText(item.getName());
+            timeView.setText(item.getTime() != null ? timeFormat.format(item.getTime()) : "--:--");
 
-            if (item.getTime() != null) {
-                timeView.setText(timeFormat.format(item.getTime()));
-            } else {
-                timeView.setText("--:--");
-            }
-
-            // Apply font scaling
-            float nameSize = viewMode == VIEW_CARDS ? 15f : (viewMode == VIEW_COMPACT ? 12f : 14f);
-            float timeSize = viewMode == VIEW_CARDS ? 18f : (viewMode == VIEW_COMPACT ? 12f : 15f);
+            float nameSize = viewMode == VIEW_CARDS ? 15f : 14f;
+            float timeSize = viewMode == VIEW_CARDS ? 18f : 15f;
             nameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getScaledSize(nameSize));
             timeView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getScaledSize(timeSize));
 
-            // Compact mode - reduce padding
-            if (viewMode == VIEW_COMPACT) {
-                int pad = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3,
-                        itemView.getContext().getResources().getDisplayMetrics());
-                itemView.setPadding(itemView.getPaddingLeft(), pad, itemView.getPaddingRight(), pad);
-            }
-
-            // Moovidos-style color coding
+            // Aqua Tech colors
             if (item.isPassed()) {
-                nameView.setTextColor(Color.parseColor("#94A3B8"));
-                timeView.setTextColor(Color.parseColor("#94A3B8"));
-                nameView.setAlpha(viewMode == VIEW_COMPACT ? 0.5f : 0.7f);
-                timeView.setAlpha(viewMode == VIEW_COMPACT ? 0.5f : 0.7f);
+                nameView.setTextColor(Color.parseColor("#9CA3AF"));
+                timeView.setTextColor(Color.parseColor("#9CA3AF"));
+                nameView.setAlpha(0.7f);
+                timeView.setAlpha(0.7f);
+                if (viewMode == VIEW_CARDS) {
+                    itemView.setBackgroundResource(0);
+                }
             } else if (item.isNext()) {
-                nameView.setTextColor(Color.parseColor("#2563EB"));
-                timeView.setTextColor(Color.parseColor("#2563EB"));
+                nameView.setTextColor(Color.parseColor("#0D9488"));
+                timeView.setTextColor(Color.parseColor("#0D9488"));
                 nameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getScaledSize(nameSize + 1));
                 timeView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getScaledSize(timeSize + 2));
                 nameView.setAlpha(1f);
                 timeView.setAlpha(1f);
-                // Highlight background for next zman
                 if (viewMode == VIEW_CARDS) {
                     itemView.setBackgroundResource(R.drawable.card_bg_highlight);
                 }
             } else {
-                nameView.setTextColor(Color.parseColor("#0F172A"));
-                timeView.setTextColor(Color.parseColor("#2563EB"));
+                nameView.setTextColor(Color.parseColor("#1F2937"));
+                timeView.setTextColor(Color.parseColor("#0D9488"));
                 nameView.setAlpha(1f);
                 timeView.setAlpha(1f);
+                if (viewMode == VIEW_CARDS) {
+                    itemView.setBackgroundResource(0);
+                }
             }
 
-            // Alert indicator
+            // Alert indicator - only show dot, not alarm icon
             if (alertIndicator != null) {
                 alertIndicator.setVisibility(item.hasAlert() ? View.VISIBLE : View.INVISIBLE);
             }
 
-            // Status text (card mode only)
+            // Status text (card mode)
             if (statusView != null) {
                 if (item.isNext()) {
-                    statusView.setText("⟵ הזמן הבא");
+                    statusView.setText("הזמן הבא");
+                    statusView.setTextColor(Color.parseColor("#0D9488"));
                     statusView.setVisibility(View.VISIBLE);
                 } else if (item.isPassed()) {
                     statusView.setText("עבר");
@@ -164,6 +155,13 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
                     statusView.setVisibility(View.GONE);
                 }
             }
+
+            // Click to show countdown
+            itemView.setOnClickListener(v -> {
+                if (clickListener != null) {
+                    clickListener.onZmanClick(item);
+                }
+            });
         }
     }
 }

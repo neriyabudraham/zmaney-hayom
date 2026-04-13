@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ============ LIGHT THEME ============ -->
+    <!-- ============ AQUA TECH - LIGHT ============ -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">#2563EB</item>
-        <item name="colorPrimaryDark">#1D4ED8</item>
-        <item name="colorAccent">#6366F1</item>
-        <item name="android:textColorPrimary">#0F172A</item>
-        <item name="android:textColorSecondary">#475569</item>
-        <item name="android:windowBackground">#F0F4F8</item>
+        <item name="colorPrimary">#0D9488</item>
+        <item name="colorPrimaryDark">#0F766E</item>
+        <item name="colorAccent">#38BDF8</item>
+        <item name="android:textColorPrimary">#1F2937</item>
+        <item name="android:textColorSecondary">#6B7280</item>
+        <item name="android:windowBackground">#F9FAFB</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownStyle</item>
         <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
         <item name="popupMenuStyle">@style/PopupMenuStyle</item>
     </style>
 
-    <!-- ============ DARK THEME ============ -->
+    <!-- ============ ELEGANT GRAPHITE - DARK ============ -->
     <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorPrimary">#3B82F6</item>
-        <item name="colorPrimaryDark">#1E293B</item>
-        <item name="colorAccent">#818CF8</item>
-        <item name="android:textColorPrimary">#F1F5F9</item>
-        <item name="android:textColorSecondary">#94A3B8</item>
-        <item name="android:windowBackground">#0F172A</item>
+        <item name="colorPrimary">#14B8A6</item>
+        <item name="colorPrimaryDark">#121212</item>
+        <item name="colorAccent">#7DD3FC</item>
+        <item name="android:textColorPrimary">#E5E7EB</item>
+        <item name="android:textColorSecondary">#9CA3AF</item>
+        <item name="android:windowBackground">#121212</item>
         <item name="android:spinnerItemStyle">@style/SpinnerItemStyle.Dark</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownStyle.Dark</item>
         <item name="android:popupMenuStyle">@style/PopupMenuStyle.Dark</item>
@@ -31,43 +31,38 @@
 
     <style name="AppTheme.Alarm" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">#EF4444</item>
-        <item name="colorAccent">#2563EB</item>
-        <item name="android:windowBackground">#F0F4F8</item>
+        <item name="colorAccent">#0D9488</item>
+        <item name="android:windowBackground">#F9FAFB</item>
     </style>
 
-    <!-- ============ SPINNER / DROPDOWN ============ -->
+    <!-- ============ SPINNER ============ -->
     <style name="SpinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
-        <item name="android:textColor">#0F172A</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#1F2937</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:padding">10dp</item>
     </style>
-
     <style name="SpinnerDropDownStyle" parent="android:Widget.ListView.DropDown">
-        <item name="android:textColor">#0F172A</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#1F2937</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:padding">12dp</item>
         <item name="android:background">#FFFFFF</item>
     </style>
-
     <style name="SpinnerItemStyle.Dark" parent="android:Widget.TextView.SpinnerItem">
-        <item name="android:textColor">#F1F5F9</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#E5E7EB</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:padding">10dp</item>
     </style>
-
     <style name="SpinnerDropDownStyle.Dark" parent="android:Widget.ListView.DropDown">
-        <item name="android:textColor">#F1F5F9</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#E5E7EB</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:padding">12dp</item>
-        <item name="android:background">#1E293B</item>
+        <item name="android:background">#1E1E1E</item>
     </style>
-
     <style name="PopupMenuStyle" parent="Widget.MaterialComponents.PopupMenu">
         <item name="android:popupBackground">#FFFFFF</item>
     </style>
-
     <style name="PopupMenuStyle.Dark" parent="Widget.MaterialComponents.PopupMenu">
-        <item name="android:popupBackground">#1E293B</item>
+        <item name="android:popupBackground">#1E1E1E</item>
     </style>
 
     <!-- ============ CARD ============ -->
@@ -76,40 +71,35 @@
         <item name="cardElevation">0dp</item>
         <item name="contentPadding">16dp</item>
         <item name="cardUseCompatPadding">true</item>
-        <item name="strokeWidth">1dp</item>
-        <item name="strokeColor">#E2E8F0</item>
     </style>
 
-    <!-- ============ TEXT STYLES ============ -->
+    <!-- ============ TEXT ============ -->
     <style name="ZmanTimeText">
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textStyle">bold</item>
     </style>
-
     <style name="ZmanLabelText">
         <item name="android:textSize">15sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
-
     <style name="ClockText">
-        <item name="android:textSize">48sp</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">38sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
     </style>
-
     <style name="HebrewDateText">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
-
     <style name="SectionHeader">
         <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#475569</item>
+        <item name="android:textColor">#6B7280</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">6dp</item>
@@ -124,41 +114,25 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAllCaps">false</item>
     </style>
-
     <style name="SmallButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textSize">14sp</item>
         <item name="android:minHeight">40dp</item>
         <item name="cornerRadius">100dp</item>
         <item name="android:textAllCaps">false</item>
     </style>
-
     <style name="PillButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="cornerRadius">100dp</item>
         <item name="android:textSize">14sp</item>
         <item name="android:minHeight">40dp</item>
-        <item name="strokeColor">#E2E8F0</item>
-        <item name="strokeWidth">1dp</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <!-- ============ FOCUSABLE FOR D-PAD ============ -->
+    <!-- ============ FOCUS ============ -->
     <style name="FocusableItem">
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:background">@drawable/focus_highlight</item>
         <item name="android:minHeight">52dp</item>
-    </style>
-
-    <!-- ============ DIALOG ============ -->
-    <style name="AppDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="android:background">#FFFFFF</item>
-        <item name="android:textColorPrimary">#0F172A</item>
-        <item name="android:windowMinWidthMajor">90%</item>
-    </style>
-
-    <style name="AppDialogTheme.Dark" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="android:background">#1E293B</item>
-        <item name="android:textColorPrimary">#F1F5F9</item>
     </style>
 
     <!-- ============ ABOUT ============ -->
@@ -168,19 +142,11 @@
         <item name="android:textColor">?colorPrimary</item>
         <item name="android:gravity">center</item>
     </style>
-
     <style name="AboutSubText">
         <item name="android:textSize">15sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">?android:textColorSecondary</item>
         <item name="android:gravity">center</item>
         <item name="android:lineSpacingMultiplier">1.5</item>
-    </style>
-
-    <!-- ============ TOOLBAR ============ -->
-    <style name="ToolbarStyle">
-        <item name="android:background">@drawable/toolbar_bg</item>
-        <item name="android:elevation">0dp</item>
-        <item name="android:minHeight">56dp</item>
     </style>
 </resources>

@@ -1,44 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Moovidos-inspired palette -->
-    <color name="primary">#2563EB</color>
-    <color name="primary_dark">#1D4ED8</color>
-    <color name="primary_light">#3B82F6</color>
-    <color name="accent">#6366F1</color>
-    <color name="accent_light">#818CF8</color>
+    <!-- ===== Aqua Tech - Light Theme ===== -->
+    <color name="primary">#0D9488</color>
+    <color name="primary_dark">#0F766E</color>
+    <color name="primary_light">#14B8A6</color>
+    <color name="accent">#38BDF8</color>
+    <color name="accent_light">#7DD3FC</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
-    <!-- Backgrounds -->
-    <color name="background_light">#F0F4F8</color>
-    <color name="background_dark">#0F172A</color>
+    <!-- Light backgrounds -->
+    <color name="background_light">#F9FAFB</color>
     <color name="card_light">#FFFFFF</color>
-    <color name="card_dark">#1E293B</color>
-    <color name="glass_white">#B3FFFFFF</color>
+    <color name="surface_light">#F3F4F6</color>
 
-    <!-- Text -->
-    <color name="text_primary_light">#0F172A</color>
-    <color name="text_primary_dark">#F1F5F9</color>
-    <color name="text_secondary_light">#475569</color>
-    <color name="text_secondary_dark">#94A3B8</color>
+    <!-- Light text -->
+    <color name="text_primary_light">#1F2937</color>
+    <color name="text_secondary_light">#6B7280</color>
 
-    <!-- Dividers & Borders -->
-    <color name="divider_light">#E2E8F0</color>
-    <color name="divider_dark">#334155</color>
+    <!-- Light borders -->
+    <color name="divider_light">#E5E7EB</color>
 
-    <!-- Semantic -->
-    <color name="zman_passed">#94A3B8</color>
-    <color name="zman_current">#2563EB</color>
-    <color name="zman_upcoming">#0F172A</color>
+    <!-- ===== Elegant Graphite - Dark Theme ===== -->
+    <color name="background_dark">#121212</color>
+    <color name="card_dark">#1E1E1E</color>
+    <color name="surface_dark">#2A2A2A</color>
+
+    <!-- Dark text -->
+    <color name="text_primary_dark">#E5E7EB</color>
+    <color name="text_secondary_dark">#9CA3AF</color>
+
+    <!-- Dark borders -->
+    <color name="divider_dark">#374151</color>
+
+    <!-- Dark accent -->
+    <color name="accent_dark">#7DD3FC</color>
+
+    <!-- ===== Semantic Colors ===== -->
+    <color name="zman_passed">#9CA3AF</color>
+    <color name="zman_current">#0D9488</color>
+    <color name="zman_upcoming">#1F2937</color>
     <color name="alarm_red">#EF4444</color>
     <color name="success_green">#059669</color>
     <color name="success_bg">#D1FAE5</color>
-    <color name="alert_active">#059669</color>
-    <color name="alert_inactive">#94A3B8</color>
+    <color name="alert_active">#0D9488</color>
+    <color name="alert_inactive">#9CA3AF</color>
 
-    <!-- Gradient-like colors for highlights -->
-    <color name="highlight_bg">#EFF6FF</color>
-    <color name="highlight_border">#BFDBFE</color>
-    <color name="selected_bg">#E0E7FF</color>
+    <!-- Highlights -->
+    <color name="highlight_bg">#F0FDFA</color>
+    <color name="highlight_border">#99F6E4</color>
+    <color name="selected_bg">#CCFBF1</color>
+
+    <!-- Gradient -->
+    <color name="gradient_start">#0F766E</color>
+    <color name="gradient_center">#0D9488</color>
+    <color name="gradient_end">#14B8A6</color>
 </resources>
