@@ -84,29 +84,53 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupToolbar() {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setOnMenuItemClickListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.action_manage_alerts) {
-                startActivity(new Intent(this, ManageAlertsActivity.class));
-                return true;
-            } else if (id == R.id.action_share) {
-                shareApp();
-                return true;
-            } else if (id == R.id.action_history) {
-                startActivity(new Intent(this, AlertHistoryActivity.class));
-                return true;
-            } else if (id == R.id.action_customize) {
-                startActivity(new Intent(this, CustomizeActivity.class));
-                return true;
-            } else if (id == R.id.action_settings) {
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            } else if (id == R.id.action_about) {
-                startActivity(new Intent(this, AboutActivity.class));
-                return true;
-            }
-            return false;
+        toolbar.setNavigationOnClickListener(v -> showCustomMenu());
+    }
+
+    private void showCustomMenu() {
+        android.view.View dialogView = getLayoutInflater().inflate(R.layout.dialog_menu, null);
+
+        android.app.Dialog dialog = new android.app.Dialog(this);
+        dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
+        dialog.setContentView(dialogView);
+
+        // Position dialog at top with animation
+        android.view.Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(android.view.WindowManager.LayoutParams.MATCH_PARENT,
+                    android.view.WindowManager.LayoutParams.WRAP_CONTENT);
+            window.setGravity(android.view.Gravity.TOP);
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.getAttributes().windowAnimations = android.R.style.Animation_Dialog;
+            window.getAttributes().y = 52; // below toolbar
+        }
+
+        dialogView.findViewById(R.id.menu_alerts).setOnClickListener(v -> {
+            dialog.dismiss();
+            startActivity(new Intent(this, ManageAlertsActivity.class));
         });
+        dialogView.findViewById(R.id.menu_history).setOnClickListener(v -> {
+            dialog.dismiss();
+            startActivity(new Intent(this, AlertHistoryActivity.class));
+        });
+        dialogView.findViewById(R.id.menu_customize).setOnClickListener(v -> {
+            dialog.dismiss();
+            startActivity(new Intent(this, CustomizeActivity.class));
+        });
+        dialogView.findViewById(R.id.menu_settings).setOnClickListener(v -> {
+            dialog.dismiss();
+            startActivity(new Intent(this, SettingsActivity.class));
+        });
+        dialogView.findViewById(R.id.menu_share).setOnClickListener(v -> {
+            dialog.dismiss();
+            shareApp();
+        });
+        dialogView.findViewById(R.id.menu_about).setOnClickListener(v -> {
+            dialog.dismiss();
+            startActivity(new Intent(this, AboutActivity.class));
+        });
+
+        dialog.show();
     }
 
     private void setupZmanimList() {

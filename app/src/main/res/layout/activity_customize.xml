@@ -176,7 +176,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="א"
-                    android:textSize="12sp"
+                    android:textSize="22sp"
                     android:textColor="@color/text_secondary_light" />
 
                 <SeekBar
@@ -188,13 +188,14 @@
                     android:progress="2"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
+                    android:layoutDirection="ltr"
                     android:focusable="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="א"
-                    android:textSize="22sp"
+                    android:textSize="12sp"
                     android:textColor="@color/text_secondary_light" />
             </LinearLayout>
 

@@ -11,13 +11,13 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="52dp"
         android:background="@drawable/toolbar_bg"
         android:elevation="0dp"
         app:titleTextColor="@color/white"
         app:title="@string/app_name"
         app:titleTextAppearance="@style/ZmanLabelText"
-        app:menu="@menu/main_menu"
+        app:navigationIcon="@android:drawable/ic_menu_sort_alphabetically"
         android:focusable="true" />
 
     <!-- Compact Clock Header -->
