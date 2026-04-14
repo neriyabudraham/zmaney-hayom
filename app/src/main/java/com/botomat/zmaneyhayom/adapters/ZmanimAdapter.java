@@ -123,26 +123,31 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
                 itemView.setPadding(itemView.getPaddingLeft(), pad, itemView.getPaddingRight(), pad);
             }
 
-            // Moovidos-style color coding
+            // Theme-aware color coding
+            boolean dark = com.botomat.zmaneyhayom.utils.ThemeHelper.isDarkMode(
+                    itemView.getContext());
+            int primaryText = dark ? Color.parseColor("#CBD5E1") : Color.parseColor("#1F2937");
+            int secondaryText = dark ? Color.parseColor("#6B7280") : Color.parseColor("#9CA3AF");
+            int accentColor = dark ? Color.parseColor("#14B8A6") : Color.parseColor("#0D9488");
+
             if (item.isPassed()) {
-                nameView.setTextColor(Color.parseColor("#9CA3AF"));
-                timeView.setTextColor(Color.parseColor("#9CA3AF"));
-                nameView.setAlpha(viewMode == VIEW_COMPACT ? 0.5f : 0.7f);
-                timeView.setAlpha(viewMode == VIEW_COMPACT ? 0.5f : 0.7f);
+                nameView.setTextColor(secondaryText);
+                timeView.setTextColor(secondaryText);
+                nameView.setAlpha(viewMode == VIEW_COMPACT ? 0.5f : 0.75f);
+                timeView.setAlpha(viewMode == VIEW_COMPACT ? 0.5f : 0.75f);
             } else if (item.isNext()) {
-                nameView.setTextColor(Color.parseColor("#0D9488"));
-                timeView.setTextColor(Color.parseColor("#0D9488"));
+                nameView.setTextColor(accentColor);
+                timeView.setTextColor(accentColor);
                 nameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getScaledSize(nameSize + 1));
                 timeView.setTextSize(TypedValue.COMPLEX_UNIT_SP, getScaledSize(timeSize + 2));
                 nameView.setAlpha(1f);
                 timeView.setAlpha(1f);
-                // Highlight background for next zman
                 if (viewMode == VIEW_CARDS) {
                     itemView.setBackgroundResource(R.drawable.card_bg_highlight);
                 }
             } else {
-                nameView.setTextColor(Color.parseColor("#1F2937"));
-                timeView.setTextColor(Color.parseColor("#0D9488"));
+                nameView.setTextColor(primaryText);
+                timeView.setTextColor(accentColor);
                 nameView.setAlpha(1f);
                 timeView.setAlpha(1f);
             }
