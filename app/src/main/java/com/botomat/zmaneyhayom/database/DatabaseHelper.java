@@ -18,7 +18,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "zmaney_hayom.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_ALERT_RULES = "alert_rules";
     private static final String TABLE_ALERT_HISTORY = "alert_history";
@@ -29,6 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_ENABLED = "enabled";
     private static final String COL_SOUND_ENABLED = "sound_enabled";
     private static final String COL_VIBRATE_ENABLED = "vibrate_enabled";
+    private static final String COL_DAYS_MASK = "days_mask";
     private static final String COL_ALERT_TIME = "alert_time";
     private static final String COL_ZMAN_TIME = "zman_time";
     private static final String COL_DISMISSED = "dismissed";
@@ -56,7 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COL_OFFSET_MINUTES + " INTEGER NOT NULL DEFAULT 0, " +
                 COL_ENABLED + " INTEGER NOT NULL DEFAULT 1, " +
                 COL_SOUND_ENABLED + " INTEGER NOT NULL DEFAULT 1, " +
-                COL_VIBRATE_ENABLED + " INTEGER NOT NULL DEFAULT 1)");
+                COL_VIBRATE_ENABLED + " INTEGER NOT NULL DEFAULT 1, " +
+                COL_DAYS_MASK + " INTEGER NOT NULL DEFAULT 127)");
 
         db.execSQL("CREATE TABLE " + TABLE_ALERT_HISTORY + " (" +
                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -71,9 +73,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ALERT_RULES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ALERT_HISTORY);
-        onCreate(db);
+        if (oldVersion < 2) {
+            try {
+                db.execSQL("ALTER TABLE " + TABLE_ALERT_RULES +
+                        " ADD COLUMN " + COL_DAYS_MASK + " INTEGER NOT NULL DEFAULT 127");
+            } catch (Exception ignored) {}
+        }
     }
 
     // ==================== Alert Rules ====================
@@ -87,6 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_ENABLED, rule.isEnabled() ? 1 : 0);
         values.put(COL_SOUND_ENABLED, rule.isSoundEnabled() ? 1 : 0);
         values.put(COL_VIBRATE_ENABLED, rule.isVibrateEnabled() ? 1 : 0);
+        values.put(COL_DAYS_MASK, rule.getDaysMask());
         return db.insert(TABLE_ALERT_RULES, null, values);
     }
 
@@ -99,6 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_ENABLED, rule.isEnabled() ? 1 : 0);
         values.put(COL_SOUND_ENABLED, rule.isSoundEnabled() ? 1 : 0);
         values.put(COL_VIBRATE_ENABLED, rule.isVibrateEnabled() ? 1 : 0);
+        values.put(COL_DAYS_MASK, rule.getDaysMask());
         db.update(TABLE_ALERT_RULES, values, COL_ID + " = ?",
                 new String[]{String.valueOf(rule.getId())});
     }
@@ -140,6 +147,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private AlertRule cursorToAlertRule(Cursor cursor) {
+        int daysMaskIdx = cursor.getColumnIndex(COL_DAYS_MASK);
+        int daysMask = daysMaskIdx >= 0 ? cursor.getInt(daysMaskIdx) : AlertRule.DAYS_ALL;
         return new AlertRule(
                 cursor.getLong(cursor.getColumnIndexOrThrow(COL_ID)),
                 ZmanType.fromString(cursor.getString(cursor.getColumnIndexOrThrow(COL_ZMAN_TYPE))),
@@ -147,7 +156,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.getInt(cursor.getColumnIndexOrThrow(COL_OFFSET_MINUTES)),
                 cursor.getInt(cursor.getColumnIndexOrThrow(COL_ENABLED)) == 1,
                 cursor.getInt(cursor.getColumnIndexOrThrow(COL_SOUND_ENABLED)) == 1,
-                cursor.getInt(cursor.getColumnIndexOrThrow(COL_VIBRATE_ENABLED)) == 1
+                cursor.getInt(cursor.getColumnIndexOrThrow(COL_VIBRATE_ENABLED)) == 1,
+                daysMask
         );
     }
 

@@ -7,6 +7,8 @@ import androidx.preference.PreferenceManager;
 
 import com.botomat.zmaneyhayom.R;
 
+import java.util.Calendar;
+
 public class ThemeHelper {
 
     public static void applyTheme(Activity activity) {
@@ -18,7 +20,12 @@ public class ThemeHelper {
     }
 
     public static boolean isDarkMode(Context context) {
-        return "dark".equals(PreferenceManager.getDefaultSharedPreferences(context)
-                .getString("theme_mode", "light"));
+        String mode = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString("theme_mode", "light");
+        if ("dark".equals(mode)) return true;
+        if ("light".equals(mode)) return false;
+        // Auto mode: dark between 19:00-06:00
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        return hour >= 19 || hour < 6;
     }
 }

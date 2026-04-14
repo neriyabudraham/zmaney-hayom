@@ -66,9 +66,12 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.AlertViewH
             toggle = itemView.findViewById(R.id.alert_switch);
         }
 
-        void bind(AlertRule rule, int position) {
+        void bind(final AlertRule rule, final int position) {
             zmanName.setText(rule.getZmanType().getHebrewName());
             offsetText.setText(rule.getDisplayText());
+            if (nextTime != null) {
+                nextTime.setText(rule.getDaysDisplayText());
+            }
             toggle.setChecked(rule.isEnabled());
 
             toggle.setOnCheckedChangeListener((buttonView, isChecked) -> {

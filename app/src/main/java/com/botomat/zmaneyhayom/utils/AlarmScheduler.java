@@ -46,20 +46,30 @@ public class AlarmScheduler {
     }
 
     public static void scheduleAlarm(Context context, AlertRule rule, ZmanimCalculator calculator) {
-        Date zmanTime = calculator.getZmanTime(rule.getZmanType());
-        if (zmanTime == null) return;
+        // Find next matching day (up to 7 days ahead)
+        Calendar probe = Calendar.getInstance();
+        Date zmanTime = null;
+        long alertTimeMs = 0;
+        long now = System.currentTimeMillis();
 
-        long alertTimeMs = calculateAlertTime(zmanTime, rule.getOffsetType(), rule.getOffsetMinutes());
-
-        // If time already passed today, schedule for tomorrow
-        if (alertTimeMs <= System.currentTimeMillis()) {
-            Calendar tomorrow = Calendar.getInstance();
-            tomorrow.add(Calendar.DAY_OF_MONTH, 1);
-            Date tomorrowZman = calculator.getZmanTime(rule.getZmanType(), tomorrow);
-            if (tomorrowZman == null) return;
-            alertTimeMs = calculateAlertTime(tomorrowZman, rule.getOffsetType(), rule.getOffsetMinutes());
-            zmanTime = tomorrowZman;
+        for (int i = 0; i < 8; i++) {
+            int dayOfWeek = probe.get(Calendar.DAY_OF_WEEK);
+            if (rule.isEnabledForDay(dayOfWeek)) {
+                Date candidateZman = calculator.getZmanTime(rule.getZmanType(), probe);
+                if (candidateZman != null) {
+                    long candidateAlert = calculateAlertTime(candidateZman,
+                            rule.getOffsetType(), rule.getOffsetMinutes());
+                    if (candidateAlert > now) {
+                        zmanTime = candidateZman;
+                        alertTimeMs = candidateAlert;
+                        break;
+                    }
+                }
+            }
+            probe.add(Calendar.DAY_OF_MONTH, 1);
         }
+
+        if (zmanTime == null) return;
 
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(EXTRA_RULE_ID, rule.getId());
@@ -127,16 +137,24 @@ public class AlarmScheduler {
         long now = System.currentTimeMillis();
 
         for (AlertRule rule : rules) {
-            Date zmanTime = calculator.getZmanTime(rule.getZmanType());
-            if (zmanTime == null) continue;
-
-            long alertTimeMs = calculateAlertTime(zmanTime, rule.getOffsetType(), rule.getOffsetMinutes());
-
-            if (alertTimeMs > now) {
-                Date alertDate = new Date(alertTimeMs);
-                if (earliest == null || alertDate.before(earliest)) {
-                    earliest = alertDate;
+            Calendar probe = Calendar.getInstance();
+            for (int i = 0; i < 8; i++) {
+                int dow = probe.get(Calendar.DAY_OF_WEEK);
+                if (rule.isEnabledForDay(dow)) {
+                    Date zmanTime = calculator.getZmanTime(rule.getZmanType(), probe);
+                    if (zmanTime != null) {
+                        long alertTimeMs = calculateAlertTime(zmanTime,
+                                rule.getOffsetType(), rule.getOffsetMinutes());
+                        if (alertTimeMs > now) {
+                            Date alertDate = new Date(alertTimeMs);
+                            if (earliest == null || alertDate.before(earliest)) {
+                                earliest = alertDate;
+                            }
+                            break;
+                        }
+                    }
                 }
+                probe.add(Calendar.DAY_OF_MONTH, 1);
             }
         }
 

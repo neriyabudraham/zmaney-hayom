@@ -130,7 +130,47 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, AboutActivity.class));
         });
 
+        // Theme toggle with subtitle showing current mode
+        TextView themeSubtitle = dialogView.findViewById(R.id.menu_theme_subtitle);
+        String currentMode = prefs.getString("theme_mode", "light");
+        themeSubtitle.setText(getThemeLabel(currentMode));
+
+        dialogView.findViewById(R.id.menu_theme).setOnClickListener(v -> {
+            dialog.dismiss();
+            showThemeDialog();
+        });
+
         dialog.show();
+    }
+
+    private String getThemeLabel(String mode) {
+        if ("dark".equals(mode)) return "כהה";
+        if ("auto".equals(mode)) return "אוטומטי (יום/לילה)";
+        return "בהיר";
+    }
+
+    private void showThemeDialog() {
+        final String[] labels = {"בהיר", "כהה", "אוטומטי (יום/לילה)"};
+        final String[] values = {"light", "dark", "auto"};
+        String current = prefs.getString("theme_mode", "light");
+        int currentIdx = 0;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i].equals(current)) { currentIdx = i; break; }
+        }
+
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle(R.string.theme)
+                .setSingleChoiceItems(labels, currentIdx,
+                        new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(android.content.DialogInterface d, int which) {
+                        prefs.edit().putString("theme_mode", values[which]).apply();
+                        d.dismiss();
+                        recreate();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     private void setupZmanimList() {
