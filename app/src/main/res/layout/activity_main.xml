@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background_light">
+    android:background="?android:windowBackground">
 
-    <!-- Compact gradient toolbar -->
+    <!-- Premium gradient toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -20,56 +20,49 @@
         app:navigationIcon="@android:drawable/ic_menu_sort_alphabetically"
         android:focusable="true" />
 
-    <!-- Compact Clock Header -->
+    <!-- Centered Clock + Hebrew date header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@color/white"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="?attr/colorSurface"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
-        <!-- Clock with seconds -->
         <TextClock
             android:id="@+id/clock_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
+            android:textSize="40sp"
             android:fontFamily="sans-serif-medium"
             android:textStyle="bold"
             android:format24Hour="HH:mm:ss"
             android:format12Hour="HH:mm:ss"
-            android:textColor="@color/primary" />
+            android:textColor="?colorPrimary"
+            android:gravity="center" />
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/hebrew_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="12dp">
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="bold"
+            android:textColor="?android:textColorPrimary"
+            android:gravity="center"
+            android:paddingTop="2dp" />
 
-            <TextView
-                android:id="@+id/hebrew_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-medium"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary_light" />
+        <TextView
+            android:id="@+id/gregorian_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif"
+            android:textColor="?android:textColorSecondary"
+            android:gravity="center"
+            android:paddingTop="2dp" />
 
-            <TextView
-                android:id="@+id/gregorian_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:fontFamily="sans-serif"
-                android:textColor="@color/text_secondary_light" />
-        </LinearLayout>
-
-        <!-- Next alert badge -->
         <LinearLayout
             android:id="@+id/next_alert_container"
             android:layout_width="wrap_content"
@@ -78,11 +71,13 @@
             android:gravity="center"
             android:visibility="gone"
             android:background="@drawable/badge_accent"
+            android:paddingTop="0dp"
+            android:layout_marginTop="4dp"
             android:focusable="true">
 
             <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:src="@android:drawable/ic_lock_idle_alarm"
                 android:layout_marginEnd="4dp" />
 
@@ -92,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/primary" />
+                android:textColor="?colorPrimary" />
         </LinearLayout>
     </LinearLayout>
 
@@ -116,6 +111,8 @@
         android:scrollbars="vertical"
         android:overScrollMode="always"
         android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:descendantFocusability="afterDescendants"
         android:nestedScrollingEnabled="true" />
 
 </LinearLayout>

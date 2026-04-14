@@ -90,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
     private void showCustomMenu() {
         android.view.View dialogView = getLayoutInflater().inflate(R.layout.dialog_menu, null);
 
+        // Apply theme-appropriate background
+        boolean dark = ThemeHelper.isDarkMode(this);
+        dialogView.setBackgroundResource(dark ? R.drawable.card_bg_dark : R.drawable.card_bg_light);
+        applyDialogTextColors(dialogView, dark);
+
         android.app.Dialog dialog = new android.app.Dialog(this);
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
         dialog.setContentView(dialogView);
@@ -193,6 +198,32 @@ public class MainActivity extends AppCompatActivity {
             hebrewDate.setText(HebrewDateHelper.getHebrewDate());
         } catch (Exception e) {
             hebrewDate.setVisibility(View.GONE);
+        }
+    }
+
+    private void applyDialogTextColors(View root, boolean dark) {
+        int textColor = dark ? 0xFFE5E7EB : 0xFF1F2937;
+        int secondaryColor = dark ? 0xFF9CA3AF : 0xFF6B7280;
+        applyTextColorRecursive(root, textColor, secondaryColor);
+    }
+
+    private void applyTextColorRecursive(View view, int primary, int secondary) {
+        if (view instanceof TextView) {
+            TextView tv = (TextView) view;
+            float size = tv.getTextSize();
+            // Small text = secondary, larger = primary. sp conversion: 12sp ~ 12*density
+            float density = getResources().getDisplayMetrics().scaledDensity;
+            if (size < 13 * density) {
+                tv.setTextColor(secondary);
+            } else {
+                tv.setTextColor(primary);
+            }
+        }
+        if (view instanceof android.view.ViewGroup) {
+            android.view.ViewGroup vg = (android.view.ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                applyTextColorRecursive(vg.getChildAt(i), primary, secondary);
+            }
         }
     }
 

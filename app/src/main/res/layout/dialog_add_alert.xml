@@ -21,10 +21,10 @@
         <Spinner
             android:id="@+id/spinner_zman"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
             android:background="@drawable/spinner_bg"
-            android:popupBackground="@color/white"
-            android:padding="8dp" />
+            android:popupBackground="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,10 +39,10 @@
         <Spinner
             android:id="@+id/spinner_offset_type"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
             android:background="@drawable/spinner_bg"
-            android:popupBackground="@color/white"
-            android:padding="8dp" />
+            android:popupBackground="@color/white" />
 
         <TextView
             android:id="@+id/offset_value_label"
