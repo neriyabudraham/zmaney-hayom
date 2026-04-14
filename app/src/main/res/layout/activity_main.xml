@@ -32,15 +32,16 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
 
-        <!-- Clock -->
+        <!-- Clock with seconds -->
         <TextClock
             android:id="@+id/clock_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="32sp"
-            android:fontFamily="sans-serif-light"
-            android:format24Hour="HH:mm"
-            android:format12Hour="HH:mm"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="bold"
+            android:format24Hour="HH:mm:ss"
+            android:format12Hour="HH:mm:ss"
             android:textColor="@color/primary" />
 
         <LinearLayout
@@ -51,20 +52,21 @@
             android:paddingStart="12dp">
 
             <TextView
+                android:id="@+id/hebrew_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary_light" />
+
+            <TextView
                 android:id="@+id/gregorian_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/text_secondary_light" />
-
-            <TextView
-                android:id="@+id/hebrew_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@color/text_primary_light" />
         </LinearLayout>
 
         <!-- Next alert badge -->
