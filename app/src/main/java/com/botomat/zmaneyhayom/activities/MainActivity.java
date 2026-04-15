@@ -283,6 +283,17 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
+        // Left arrow or Menu key opens the side menu (hamburger)
+        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_MENU
+                || keyCode == KeyEvent.KEYCODE_SOFT_LEFT) {
+            showCustomMenu();
+            return true;
+        }
+        // Enter/center opens menu too (fallback)
+        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+            showCustomMenu();
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
     }
 
