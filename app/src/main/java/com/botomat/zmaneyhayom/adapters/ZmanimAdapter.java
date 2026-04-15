@@ -123,16 +123,17 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
                 itemView.setPadding(itemView.getPaddingLeft(), pad, itemView.getPaddingRight(), pad);
             }
 
-            // Theme-aware color coding
+            // Theme-aware color coding - soft grays in dark mode
             boolean dark = com.botomat.zmaneyhayom.utils.ThemeHelper.isDarkMode(
                     itemView.getContext());
-            int primaryText = dark ? Color.parseColor("#CBD5E1") : Color.parseColor("#1F2937");
-            int secondaryText = dark ? Color.parseColor("#6B7280") : Color.parseColor("#9CA3AF");
+            int primaryText = dark ? Color.parseColor("#9CA3AF") : Color.parseColor("#1F2937");
+            int timeColor = dark ? Color.parseColor("#9CA3AF") : Color.parseColor("#0D9488");
+            int passedText = dark ? Color.parseColor("#4B5563") : Color.parseColor("#9CA3AF");
             int accentColor = dark ? Color.parseColor("#14B8A6") : Color.parseColor("#0D9488");
 
             if (item.isPassed()) {
-                nameView.setTextColor(secondaryText);
-                timeView.setTextColor(secondaryText);
+                nameView.setTextColor(passedText);
+                timeView.setTextColor(passedText);
                 nameView.setAlpha(viewMode == VIEW_COMPACT ? 0.5f : 0.75f);
                 timeView.setAlpha(viewMode == VIEW_COMPACT ? 0.5f : 0.75f);
             } else if (item.isNext()) {
@@ -147,9 +148,12 @@ public class ZmanimAdapter extends RecyclerView.Adapter<ZmanimAdapter.ZmanViewHo
                 }
             } else {
                 nameView.setTextColor(primaryText);
-                timeView.setTextColor(accentColor);
+                timeView.setTextColor(timeColor);
                 nameView.setAlpha(1f);
                 timeView.setAlpha(1f);
+                if (viewMode == VIEW_CARDS) {
+                    itemView.setBackgroundResource(dark ? R.drawable.card_bg_dark : R.drawable.card_bg_light);
+                }
             }
 
             // Alert indicator

@@ -257,9 +257,31 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-            zmanimList.requestFocus();
-            return zmanimList.dispatchKeyEvent(event);
+        // Scroll zmanim list with D-pad or volume keys
+        if (keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_VOLUME_UP
+                || keyCode == KeyEvent.KEYCODE_PAGE_UP) {
+            androidx.recyclerview.widget.LinearLayoutManager lm =
+                    (androidx.recyclerview.widget.LinearLayoutManager) zmanimList.getLayoutManager();
+            if (lm != null) {
+                int first = lm.findFirstVisibleItemPosition();
+                if (first > 0) {
+                    zmanimList.smoothScrollToPosition(Math.max(0, first - 2));
+                }
+            }
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
+                || keyCode == KeyEvent.KEYCODE_PAGE_DOWN) {
+            androidx.recyclerview.widget.LinearLayoutManager lm =
+                    (androidx.recyclerview.widget.LinearLayoutManager) zmanimList.getLayoutManager();
+            if (lm != null) {
+                int last = lm.findLastVisibleItemPosition();
+                int total = adapter.getItemCount();
+                if (last < total - 1) {
+                    zmanimList.smoothScrollToPosition(Math.min(total - 1, last + 2));
+                }
+            }
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
