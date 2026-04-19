@@ -134,6 +134,10 @@ public class MainActivity extends AppCompatActivity {
             dialog.dismiss();
             startActivity(new Intent(this, AboutActivity.class));
         });
+        dialogView.findViewById(R.id.menu_update).setOnClickListener(v -> {
+            dialog.dismiss();
+            startActivity(new Intent(this, UpdateActivity.class));
+        });
 
         // Theme toggle with subtitle showing current mode
         TextView themeSubtitle = dialogView.findViewById(R.id.menu_theme_subtitle);
