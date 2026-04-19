@@ -1,5 +1,6 @@
 package com.botomat.zmaneyhayom.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -93,7 +94,59 @@ public class CustomizeActivity extends AppCompatActivity {
         });
     }
 
+    private static final int PICK_AUDIO_FILE = 5001;
+
     private void showRingtonePicker() {
+        final String[] options = {"צלצולי המכשיר", "בחר קובץ אודיו מהמכשיר", "צלצול ברירת מחדל"};
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.choose_ringtone)
+                .setItems(options, new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(android.content.DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            showSystemRingtones();
+                        } else if (which == 1) {
+                            pickAudioFile();
+                        } else {
+                            prefs.edit().remove("custom_ringtone").apply();
+                            updateRingtoneLabel();
+                        }
+                    }
+                })
+                .show();
+    }
+
+    private void pickAudioFile() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("audio/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(Intent.createChooser(intent, "בחר קובץ אודיו"), PICK_AUDIO_FILE);
+        } catch (Exception e) {
+            android.widget.Toast.makeText(this, "לא ניתן לפתוח בורר קבצים",
+                    android.widget.Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_AUDIO_FILE && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            if (uri != null) {
+                try {
+                    // Persist permission to read this URI
+                    getContentResolver().takePersistableUriPermission(
+                            uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                } catch (Exception ignored) {}
+                prefs.edit().putString("custom_ringtone", uri.toString()).apply();
+                updateRingtoneLabel();
+                previewUri(uri);
+            }
+        }
+    }
+
+    private void showSystemRingtones() {
         RingtoneManager manager = new RingtoneManager(this);
         manager.setType(RingtoneManager.TYPE_ALARM | RingtoneManager.TYPE_RINGTONE
                 | RingtoneManager.TYPE_NOTIFICATION);
@@ -123,30 +176,32 @@ public class CustomizeActivity extends AppCompatActivity {
                             prefs.edit().putString("custom_ringtone", selectedUri.toString()).apply();
                         }
                         updateRingtoneLabel();
-
-                        // Preview
-                        try {
-                            if (previewPlayer != null) previewPlayer.release();
-                            previewPlayer = new MediaPlayer();
-                            previewPlayer.setDataSource(CustomizeActivity.this, selectedUri);
-                            previewPlayer.prepare();
-                            previewPlayer.start();
-                            new Handler().postDelayed(new Runnable() {
-                                @Override public void run() {
-                                    try {
-                                        if (previewPlayer != null) {
-                                            if (previewPlayer.isPlaying()) previewPlayer.stop();
-                                            previewPlayer.release();
-                                            previewPlayer = null;
-                                        }
-                                    } catch (Exception ignored) {}
-                                }
-                            }, 3000);
-                        } catch (Exception ignored) {}
+                        previewUri(selectedUri);
                     }
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show();
+    }
+
+    private void previewUri(final Uri uri) {
+        try {
+            if (previewPlayer != null) previewPlayer.release();
+            previewPlayer = new MediaPlayer();
+            previewPlayer.setDataSource(CustomizeActivity.this, uri);
+            previewPlayer.prepare();
+            previewPlayer.start();
+            new Handler().postDelayed(new Runnable() {
+                @Override public void run() {
+                    try {
+                        if (previewPlayer != null) {
+                            if (previewPlayer.isPlaying()) previewPlayer.stop();
+                            previewPlayer.release();
+                            previewPlayer = null;
+                        }
+                    } catch (Exception ignored) {}
+                }
+            }, 3000);
+        } catch (Exception ignored) {}
     }
 
     private void updateFontPreview(int scale) {

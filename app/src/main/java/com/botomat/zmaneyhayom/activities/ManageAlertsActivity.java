@@ -24,7 +24,7 @@ import com.botomat.zmaneyhayom.utils.AlarmScheduler;
 import com.botomat.zmaneyhayom.utils.ThemeHelper;
 import com.botomat.zmaneyhayom.utils.ZmanimCalculator;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
         adapter.setListener(this);
         recyclerView.setAdapter(adapter);
 
-        FloatingActionButton fab = findViewById(R.id.fab_add);
+        MaterialButton fab = findViewById(R.id.fab_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) { showAlertDialog(null); }
         });

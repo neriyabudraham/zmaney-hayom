@@ -22,17 +22,18 @@
     <!-- Light borders -->
     <color name="divider_light">#E5E7EB</color>
 
-    <!-- ===== Elegant Graphite - Dark Theme ===== -->
-    <color name="background_dark">#121212</color>
-    <color name="card_dark">#1E1E1E</color>
-    <color name="surface_dark">#2A2A2A</color>
+    <!-- ===== Soft Graphite - Dark Theme (softer, not aggressive black) ===== -->
+    <color name="background_dark">#1C1F26</color>
+    <color name="card_dark">#272B34</color>
+    <color name="surface_dark">#323742</color>
+    <color name="surface_dark_elevated">#3A4050</color>
 
     <!-- Dark text -->
-    <color name="text_primary_dark">#E5E7EB</color>
+    <color name="text_primary_dark">#D1D5DB</color>
     <color name="text_secondary_dark">#9CA3AF</color>
 
     <!-- Dark borders -->
-    <color name="divider_dark">#374151</color>
+    <color name="divider_dark">#3F4553</color>
 
     <!-- Dark accent -->
     <color name="accent_dark">#7DD3FC</color>

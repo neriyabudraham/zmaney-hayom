@@ -7,11 +7,11 @@
     android:orientation="vertical"
     android:background="?android:windowBackground">
 
-    <!-- Premium gradient toolbar -->
+    <!-- Compact toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="48dp"
         android:background="@drawable/toolbar_bg"
         android:elevation="0dp"
         app:titleTextColor="@color/white"
@@ -20,48 +20,125 @@
         app:navigationIcon="@drawable/ic_menu_hamburger"
         android:focusable="true" />
 
-    <!-- Centered Clock + Hebrew date header -->
+    <!-- Compact header: clock + date in horizontal row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:background="?attr/colorSurface"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
-        <TextClock
-            android:id="@+id/clock_view"
+        <!-- Previous day button -->
+        <ImageButton
+            android:id="@+id/btn_prev_day"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@android:drawable/ic_media_rew"
+            android:background="@drawable/focus_highlight"
+            android:scaleType="fitCenter"
+            android:padding="8dp"
+            android:focusable="true"
+            android:contentDescription="יום קודם" />
+
+        <!-- Clock + dates (centered) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextClock
+                android:id="@+id/clock_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="bold"
+                android:format24Hour="HH:mm:ss"
+                android:format12Hour="HH:mm:ss"
+                android:textColor="?colorPrimary"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/hebrew_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/gregorian_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="?android:textColorSecondary"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- Next day button -->
+        <ImageButton
+            android:id="@+id/btn_next_day"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@android:drawable/ic_media_ff"
+            android:background="@drawable/focus_highlight"
+            android:scaleType="fitCenter"
+            android:padding="8dp"
+            android:focusable="true"
+            android:contentDescription="יום הבא" />
+    </LinearLayout>
+
+    <!-- Today button (visible when viewing different day) -->
+    <TextView
+        android:id="@+id/btn_today"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="חזור להיום"
+        android:textSize="12sp"
+        android:textColor="?colorPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:background="@drawable/badge_accent"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:visibility="gone" />
+
+    <!-- Next alert + Omer badge -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="4dp">
+
+        <TextView
+            android:id="@+id/omer_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40sp"
+            android:textSize="11sp"
             android:fontFamily="sans-serif-medium"
-            android:textStyle="bold"
-            android:format24Hour="HH:mm:ss"
-            android:format12Hour="HH:mm:ss"
             android:textColor="?colorPrimary"
-            android:gravity="center" />
-
-        <TextView
-            android:id="@+id/hebrew_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-medium"
-            android:textStyle="bold"
-            android:textColor="?android:textColorPrimary"
             android:gravity="center"
-            android:paddingTop="2dp" />
-
-        <TextView
-            android:id="@+id/gregorian_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:fontFamily="sans-serif"
-            android:textColor="?android:textColorSecondary"
-            android:gravity="center"
-            android:paddingTop="2dp" />
+            android:background="@drawable/badge_accent"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:layout_marginEnd="4dp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/next_alert_container"
@@ -71,15 +148,7 @@
             android:gravity="center"
             android:visibility="gone"
             android:background="@drawable/badge_accent"
-            android:paddingTop="0dp"
-            android:layout_marginTop="4dp"
-            android:focusable="true">
-
-            <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:src="@android:drawable/ic_lock_idle_alarm"
-                android:layout_marginEnd="4dp" />
+            android:layout_marginStart="4dp">
 
             <TextView
                 android:id="@+id/next_alert_text"
@@ -91,13 +160,12 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Thin divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/divider_light" />
 
-    <!-- Zmanim List - full remaining space -->
+    <!-- Zmanim List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/zmanim_list"
         android:layout_width="match_parent"
@@ -111,7 +179,7 @@
         android:scrollbars="vertical"
         android:overScrollMode="always"
         android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:focusableInTouchMode="false"
         android:descendantFocusability="afterDescendants"
         android:nestedScrollingEnabled="true" />
 

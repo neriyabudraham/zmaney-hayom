@@ -44,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout nextAlertContainer;
     private TextView nextAlertText;
     private RecyclerView zmanimList;
+    private TextView omerText;
+    private TextView btnToday;
+    private android.widget.ImageButton btnPrevDay, btnNextDay;
+    private Calendar viewedDay = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,40 @@ public class MainActivity extends AppCompatActivity {
         nextAlertContainer = findViewById(R.id.next_alert_container);
         nextAlertText = findViewById(R.id.next_alert_text);
         zmanimList = findViewById(R.id.zmanim_list);
+        omerText = findViewById(R.id.omer_text);
+        btnToday = findViewById(R.id.btn_today);
+        btnPrevDay = findViewById(R.id.btn_prev_day);
+        btnNextDay = findViewById(R.id.btn_next_day);
+
+        btnPrevDay.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { changeDay(-1); }
+        });
+        btnNextDay.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { changeDay(1); }
+        });
+        btnToday.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                viewedDay = Calendar.getInstance();
+                refreshView();
+            }
+        });
+    }
+
+    private void changeDay(int delta) {
+        viewedDay.add(Calendar.DAY_OF_MONTH, delta);
+        refreshView();
+    }
+
+    private boolean isToday() {
+        Calendar now = Calendar.getInstance();
+        return viewedDay.get(Calendar.YEAR) == now.get(Calendar.YEAR)
+                && viewedDay.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR);
+    }
+
+    private void refreshView() {
+        updateDates();
+        loadZmanim();
+        btnToday.setVisibility(isToday() ? View.GONE : View.VISIBLE);
     }
 
     private void setupToolbar() {
@@ -196,12 +234,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateDates() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d MMMM yyyy", new Locale("he"));
-        gregorianDate.setText(sdf.format(Calendar.getInstance().getTime()));
+        gregorianDate.setText(sdf.format(viewedDay.getTime()));
 
         try {
-            hebrewDate.setText(HebrewDateHelper.getHebrewDate());
+            hebrewDate.setText(HebrewDateHelper.getHebrewDate(viewedDay));
         } catch (Exception e) {
             hebrewDate.setVisibility(View.GONE);
+        }
+
+        // Sefirat HaOmer
+        try {
+            String omer = HebrewDateHelper.getSefiratHaOmer(viewedDay);
+            if (omer != null && !omer.isEmpty()) {
+                omerText.setText(omer);
+                omerText.setVisibility(View.VISIBLE);
+            } else {
+                omerText.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            omerText.setVisibility(View.GONE);
         }
     }
 
@@ -232,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadZmanim() {
-        List<ZmanItem> zmanim = calculator.calculateZmanim();
+        List<ZmanItem> zmanim = calculator.calculateZmanim(viewedDay);
         for (ZmanItem item : zmanim) {
             item.setHasAlert(db.hasAlertForZman(item.getType()));
         }

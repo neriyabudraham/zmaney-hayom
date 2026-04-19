@@ -5,28 +5,28 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="24dp"
-    android:background="@color/background_light">
+    android:background="?android:windowBackground">
 
     <androidx.cardview.widget.CardView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="28dp"
+        app:cardCornerRadius="24dp"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/white">
+        app:cardBackgroundColor="?attr/colorSurface">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="32dp">
+            android:padding="28dp">
 
             <ImageView
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:src="@android:drawable/ic_lock_idle_alarm"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="12dp" />
 
             <TextView
                 android:id="@+id/alarm_zman_name"
@@ -34,17 +34,19 @@
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:textColor="?colorPrimary"
                 android:gravity="center" />
 
             <TextView
                 android:id="@+id/alarm_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="40sp"
-                android:fontFamily="sans-serif-light"
+                android:textSize="36sp"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="bold"
                 android:textColor="@color/alarm_red"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:id="@+id/alarm_details"
@@ -53,38 +55,52 @@
                 android:textSize="15sp"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:textColor="@color/text_secondary_light"
+                android:textColor="?android:textColorSecondary"
                 android:layout_marginTop="8dp"
                 android:lineSpacingMultiplier="1.4" />
+
+            <TextView
+                android:id="@+id/auto_stop_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="?android:textColorSecondary"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="מפסיק בעוד 60 שניות" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="28dp">
+                android:layout_marginTop="24dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_snooze"
                     android:layout_width="0dp"
-                    android:layout_height="52dp"
+                    android:layout_height="56dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
-                    android:text="@string/snooze"
-                    android:textSize="15sp"
+                    android:text="נודניק"
+                    android:textSize="16sp"
                     android:textAllCaps="false"
+                    android:fontFamily="sans-serif-medium"
                     app:cornerRadius="100dp"
+                    android:focusable="true"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_dismiss"
                     android:layout_width="0dp"
-                    android:layout_height="52dp"
+                    android:layout_height="56dp"
                     android:layout_weight="1"
-                    android:text="@string/dismiss"
-                    android:textSize="15sp"
+                    android:text="עצור"
+                    android:textSize="16sp"
                     android:textAllCaps="false"
+                    android:fontFamily="sans-serif-medium"
                     app:cornerRadius="100dp"
+                    android:focusable="true"
                     android:backgroundTint="@color/alarm_red" />
             </LinearLayout>
         </LinearLayout>

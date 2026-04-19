@@ -1,48 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="?android:windowBackground">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:layout_alignParentTop="true"
         android:background="@drawable/toolbar_bg"
         app:titleTextColor="@color/white"
         app:title="@string/manage_alerts"
         app:navigationIcon="?homeAsUpIndicator"
         app:titleTextAppearance="@style/ZmanLabelText" />
 
-    <TextView
-        android:id="@+id/empty_text"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:text="@string/no_alerts"
-        android:gravity="center"
-        android:textSize="14sp"
-        android:visibility="gone"
-        android:textColor="?android:textColorSecondary" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/alerts_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:clipToPadding="false"
-        android:padding="4dp" />
+        <TextView
+            android:id="@+id/empty_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/no_alerts"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:textColor="?android:textColorSecondary" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/alerts_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp" />
+    </FrameLayout>
+
+    <!-- Add button as a bottom bar - won't hide items -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/fab_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
         android:layout_margin="12dp"
-        android:src="@android:drawable/ic_input_add"
-        app:fabSize="normal"
-        app:tint="@color/white" />
-</RelativeLayout>
+        android:text="הוסף התראה"
+        android:textSize="15sp"
+        android:textAllCaps="false"
+        app:cornerRadius="100dp"
+        app:icon="@android:drawable/ic_input_add"
+        app:iconTint="@color/white"
+        app:iconGravity="textStart" />
+</LinearLayout>
