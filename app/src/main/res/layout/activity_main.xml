@@ -43,6 +43,18 @@
             android:focusable="true"
             android:contentDescription="יום קודם" />
 
+        <!-- Calendar picker button -->
+        <ImageButton
+            android:id="@+id/btn_calendar"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            android:background="@drawable/focus_highlight"
+            android:scaleType="fitCenter"
+            android:padding="8dp"
+            android:focusable="true"
+            android:contentDescription="בחר תאריך" />
+
         <!-- Clock + dates (centered) -->
         <LinearLayout
             android:layout_width="0dp"

@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView zmanimList;
     private TextView omerText;
     private TextView btnToday;
-    private android.widget.ImageButton btnPrevDay, btnNextDay;
+    private android.widget.ImageButton btnPrevDay, btnNextDay, btnCalendar;
     private Calendar viewedDay = Calendar.getInstance();
 
     @Override
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         btnToday = findViewById(R.id.btn_today);
         btnPrevDay = findViewById(R.id.btn_prev_day);
         btnNextDay = findViewById(R.id.btn_next_day);
+        btnCalendar = findViewById(R.id.btn_calendar);
 
         btnPrevDay.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) { changeDay(-1); }
@@ -101,6 +102,49 @@ public class MainActivity extends AppCompatActivity {
                 refreshView();
             }
         });
+        btnCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { showDatePicker(); }
+        });
+    }
+
+    private void showDatePicker() {
+        android.app.DatePickerDialog dialog = new android.app.DatePickerDialog(
+                this,
+                new android.app.DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
+                        viewedDay.set(Calendar.YEAR, year);
+                        viewedDay.set(Calendar.MONTH, month);
+                        viewedDay.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        refreshView();
+                    }
+                },
+                viewedDay.get(Calendar.YEAR),
+                viewedDay.get(Calendar.MONTH),
+                viewedDay.get(Calendar.DAY_OF_MONTH));
+
+        // Update title with Hebrew date as user navigates
+        try {
+            final android.app.DatePickerDialog dlg = dialog;
+            dialog.setTitle(HebrewDateHelper.getHebrewDate(viewedDay));
+            dialog.getDatePicker().init(
+                    viewedDay.get(Calendar.YEAR),
+                    viewedDay.get(Calendar.MONTH),
+                    viewedDay.get(Calendar.DAY_OF_MONTH),
+                    new android.widget.DatePicker.OnDateChangedListener() {
+                        @Override
+                        public void onDateChanged(android.widget.DatePicker view,
+                                int year, int month, int dayOfMonth) {
+                            try {
+                                Calendar temp = Calendar.getInstance();
+                                temp.set(year, month, dayOfMonth);
+                                dlg.setTitle(HebrewDateHelper.getHebrewDate(temp));
+                            } catch (Exception ignored) {}
+                        }
+                    });
+        } catch (Exception ignored) {}
+
+        dialog.show();
     }
 
     private void changeDay(int delta) {
