@@ -38,25 +38,18 @@
         android:paddingTop="4dp"
         android:paddingBottom="88dp" />
 
-    <!-- Slim extended FAB pill -->
-    <com.google.android.material.button.MaterialButton
+    <!-- Tiny circular add FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
         android:layout_width="wrap_content"
-        android:layout_height="44dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="הוסף"
-        android:textSize="14sp"
-        android:textAllCaps="false"
-        android:fontFamily="sans-serif-medium"
-        android:paddingStart="16dp"
-        android:paddingEnd="18dp"
-        app:cornerRadius="100dp"
-        app:icon="@android:drawable/ic_input_add"
-        app:iconTint="@color/white"
-        app:iconSize="18dp"
-        app:iconGravity="textStart"
+        android:src="@android:drawable/ic_input_add"
+        android:contentDescription="הוסף התראה"
+        app:fabSize="mini"
+        app:tint="@color/white"
         app:elevation="4dp" />
 </RelativeLayout>

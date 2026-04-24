@@ -1,60 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ===== Aqua Tech - Light Theme ===== -->
-    <color name="primary">#0D9488</color>
-    <color name="primary_dark">#0F766E</color>
-    <color name="primary_light">#14B8A6</color>
-    <color name="accent">#38BDF8</color>
-    <color name="accent_light">#7DD3FC</color>
+    <!-- ===== Oceanic Professional - Light Theme ===== -->
+    <color name="primary">#3B82F6</color>
+    <color name="primary_dark">#2563EB</color>
+    <color name="primary_light">#60A5FA</color>
+    <color name="accent">#10B981</color>
+    <color name="accent_light">#34D399</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
     <!-- Light backgrounds -->
-    <color name="background_light">#F9FAFB</color>
+    <color name="background_light">#F8FAFC</color>
     <color name="card_light">#FFFFFF</color>
-    <color name="surface_light">#F3F4F6</color>
+    <color name="surface_light">#F1F5F9</color>
 
     <!-- Light text -->
-    <color name="text_primary_light">#1F2937</color>
-    <color name="text_secondary_light">#6B7280</color>
+    <color name="text_primary_light">#1E293B</color>
+    <color name="text_secondary_light">#64748B</color>
 
     <!-- Light borders -->
-    <color name="divider_light">#E5E7EB</color>
+    <color name="divider_light">#E2E8F0</color>
 
-    <!-- ===== Soft Graphite - Dark Theme (softer, not aggressive black) ===== -->
-    <color name="background_dark">#1C1F26</color>
-    <color name="card_dark">#272B34</color>
-    <color name="surface_dark">#323742</color>
-    <color name="surface_dark_elevated">#3A4050</color>
+    <!-- ===== Oceanic Professional - Dark Theme ===== -->
+    <color name="background_dark">#0F172A</color>
+    <color name="card_dark">#1E293B</color>
+    <color name="surface_dark">#293548</color>
+    <color name="surface_dark_elevated">#334155</color>
 
     <!-- Dark text -->
-    <color name="text_primary_dark">#D1D5DB</color>
-    <color name="text_secondary_dark">#9CA3AF</color>
+    <color name="text_primary_dark">#F1F5F9</color>
+    <color name="text_secondary_dark">#94A3B8</color>
 
     <!-- Dark borders -->
-    <color name="divider_dark">#3F4553</color>
+    <color name="divider_dark">#334155</color>
 
     <!-- Dark accent -->
-    <color name="accent_dark">#7DD3FC</color>
+    <color name="accent_dark">#34D399</color>
+    <color name="primary_dark_theme">#60A5FA</color>
 
     <!-- ===== Semantic Colors ===== -->
-    <color name="zman_passed">#9CA3AF</color>
-    <color name="zman_current">#0D9488</color>
-    <color name="zman_upcoming">#1F2937</color>
+    <color name="zman_passed">#94A3B8</color>
+    <color name="zman_current">#3B82F6</color>
+    <color name="zman_upcoming">#1E293B</color>
     <color name="alarm_red">#EF4444</color>
-    <color name="success_green">#059669</color>
+    <color name="success_green">#10B981</color>
     <color name="success_bg">#D1FAE5</color>
-    <color name="alert_active">#0D9488</color>
-    <color name="alert_inactive">#9CA3AF</color>
+    <color name="alert_active">#10B981</color>
+    <color name="alert_inactive">#94A3B8</color>
 
     <!-- Highlights -->
-    <color name="highlight_bg">#F0FDFA</color>
-    <color name="highlight_border">#99F6E4</color>
-    <color name="selected_bg">#CCFBF1</color>
+    <color name="highlight_bg">#EFF6FF</color>
+    <color name="highlight_border">#BFDBFE</color>
+    <color name="selected_bg">#DBEAFE</color>
 
     <!-- Gradient -->
-    <color name="gradient_start">#0F766E</color>
-    <color name="gradient_center">#0D9488</color>
-    <color name="gradient_end">#14B8A6</color>
+    <color name="gradient_start">#2563EB</color>
+    <color name="gradient_center">#3B82F6</color>
+    <color name="gradient_end">#60A5FA</color>
 </resources>

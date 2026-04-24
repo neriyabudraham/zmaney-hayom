@@ -3,10 +3,8 @@ package com.botomat.zmaneyhayom.activities;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,6 +23,7 @@ import com.botomat.zmaneyhayom.utils.ThemeHelper;
 import com.botomat.zmaneyhayom.utils.ZmanimCalculator;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
         adapter.setListener(this);
         recyclerView.setAdapter(adapter);
 
-        MaterialButton fab = findViewById(R.id.fab_add);
+        FloatingActionButton fab = findViewById(R.id.fab_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) { showAlertDialog(null); }
         });
@@ -73,13 +72,12 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
         final boolean isEdit = existingRule != null;
         final View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_alert, null);
 
-        final Spinner zmanSpinner = dialogView.findViewById(R.id.spinner_zman);
-        final Spinner offsetSpinner = dialogView.findViewById(R.id.spinner_offset_type);
+        final TextView txtZman = dialogView.findViewById(R.id.txt_zman);
+        final TextView txtOffsetType = dialogView.findViewById(R.id.txt_offset_type);
         final EditText offsetValue = dialogView.findViewById(R.id.edit_offset_value);
         final CheckBox soundCheck = dialogView.findViewById(R.id.check_sound);
         final CheckBox vibrateCheck = dialogView.findViewById(R.id.check_vibrate);
 
-        // Day checkboxes
         final CheckBox[] dayBoxes = new CheckBox[]{
                 (CheckBox) dialogView.findViewById(R.id.day_sun),
                 (CheckBox) dialogView.findViewById(R.id.day_mon),
@@ -90,30 +88,25 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
                 (CheckBox) dialogView.findViewById(R.id.day_sat)
         };
 
-        // Setup spinners
         final String[] zmanNames = getResources().getStringArray(R.array.zman_entries);
         final String[] zmanValues = getResources().getStringArray(R.array.zman_values);
-        ArrayAdapter<String> zmanAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, zmanNames);
-        zmanAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        zmanSpinner.setAdapter(zmanAdapter);
-
         final String[] offsetTypes = getResources().getStringArray(R.array.offset_type_entries);
         final String[] offsetTypeValues = getResources().getStringArray(R.array.offset_type_values);
-        ArrayAdapter<String> offsetAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, offsetTypes);
-        offsetAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        offsetSpinner.setAdapter(offsetAdapter);
 
-        // Pre-fill for edit
+        // Track current selections
+        final int[] selectedZmanIdx = {0};
+        final int[] selectedOffsetIdx = {0};
+
         if (isEdit) {
             for (int i = 0; i < zmanValues.length; i++) {
                 if (zmanValues[i].equals(existingRule.getZmanType().name())) {
-                    zmanSpinner.setSelection(i);
+                    selectedZmanIdx[0] = i;
                     break;
                 }
             }
             for (int i = 0; i < offsetTypeValues.length; i++) {
                 if (offsetTypeValues[i].equals(existingRule.getOffsetType().getValue())) {
-                    offsetSpinner.setSelection(i);
+                    selectedOffsetIdx[0] = i;
                     break;
                 }
             }
@@ -126,6 +119,47 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
             }
         }
 
+        txtZman.setText(zmanNames[selectedZmanIdx[0]]);
+        txtOffsetType.setText(offsetTypes[selectedOffsetIdx[0]]);
+
+        // Click on Zman row -> show selection dialog
+        dialogView.findViewById(R.id.row_zman).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(ManageAlertsActivity.this)
+                        .setTitle("בחר זמן")
+                        .setSingleChoiceItems(zmanNames, selectedZmanIdx[0],
+                                new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(android.content.DialogInterface d, int which) {
+                                selectedZmanIdx[0] = which;
+                                txtZman.setText(zmanNames[which]);
+                                d.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        // Click on offset type row -> show selection dialog
+        dialogView.findViewById(R.id.row_offset_type).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(ManageAlertsActivity.this)
+                        .setTitle("סוג היסט")
+                        .setSingleChoiceItems(offsetTypes, selectedOffsetIdx[0],
+                                new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(android.content.DialogInterface d, int which) {
+                                selectedOffsetIdx[0] = which;
+                                txtOffsetType.setText(offsetTypes[which]);
+                                d.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
+
         // Preset buttons for days
         dialogView.findViewById(R.id.preset_all_days).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -134,14 +168,10 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
         });
         dialogView.findViewById(R.id.preset_weekdays).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                // Sun-Thu
-                dayBoxes[0].setChecked(true);
-                dayBoxes[1].setChecked(true);
-                dayBoxes[2].setChecked(true);
-                dayBoxes[3].setChecked(true);
+                dayBoxes[0].setChecked(true); dayBoxes[1].setChecked(true);
+                dayBoxes[2].setChecked(true); dayBoxes[3].setChecked(true);
                 dayBoxes[4].setChecked(true);
-                dayBoxes[5].setChecked(false);
-                dayBoxes[6].setChecked(false);
+                dayBoxes[5].setChecked(false); dayBoxes[6].setChecked(false);
             }
         });
         dialogView.findViewById(R.id.preset_sun_fri).setOnClickListener(new View.OnClickListener() {
@@ -158,8 +188,8 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
                     @Override
                     public void onClick(android.content.DialogInterface dialog, int which) {
                         AlertRule rule = isEdit ? existingRule : new AlertRule();
-                        rule.setZmanType(ZmanType.fromString(zmanValues[zmanSpinner.getSelectedItemPosition()]));
-                        rule.setOffsetType(OffsetType.fromString(offsetTypeValues[offsetSpinner.getSelectedItemPosition()]));
+                        rule.setZmanType(ZmanType.fromString(zmanValues[selectedZmanIdx[0]]));
+                        rule.setOffsetType(OffsetType.fromString(offsetTypeValues[selectedOffsetIdx[0]]));
 
                         String offsetStr = offsetValue.getText().toString().trim();
                         rule.setOffsetMinutes(offsetStr.isEmpty() ? 0 : Integer.parseInt(offsetStr));
