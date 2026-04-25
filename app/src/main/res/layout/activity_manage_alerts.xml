@@ -38,7 +38,7 @@
         android:paddingTop="4dp"
         android:paddingBottom="88dp" />
 
-    <!-- Tiny circular add FAB -->
+    <!-- Tiny circular add FAB - keyboard accessible -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
         android:layout_width="wrap_content"
@@ -49,6 +49,9 @@
         android:layout_marginBottom="16dp"
         android:src="@android:drawable/ic_input_add"
         android:contentDescription="הוסף התראה"
+        android:focusable="true"
+        android:focusableInTouchMode="false"
+        android:nextFocusUp="@id/alerts_list"
         app:fabSize="mini"
         app:tint="@color/white"
         app:elevation="4dp" />

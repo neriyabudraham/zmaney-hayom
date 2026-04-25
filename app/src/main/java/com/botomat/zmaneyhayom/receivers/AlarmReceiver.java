@@ -41,6 +41,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         boolean soundEnabled = intent.getBooleanExtra(AlarmScheduler.EXTRA_SOUND, true);
         boolean vibrateEnabled = intent.getBooleanExtra(AlarmScheduler.EXTRA_VIBRATE, true);
         boolean isSnooze = intent.getBooleanExtra("is_snooze", false);
+        int ringCycle = intent.getIntExtra("ring_cycle", 1);
 
         ZmanType zmanType = ZmanType.fromString(zmanTypeName);
         OffsetType offsetType = OffsetType.fromString(offsetTypeStr);
@@ -63,6 +64,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             alarmIntent.putExtra(AlarmScheduler.EXTRA_OFFSET_MINUTES, offsetMinutes);
             alarmIntent.putExtra(AlarmScheduler.EXTRA_SOUND, soundEnabled);
             alarmIntent.putExtra(AlarmScheduler.EXTRA_VIBRATE, vibrateEnabled);
+            alarmIntent.putExtra("ring_cycle", ringCycle);
             context.startActivity(alarmIntent);
         } catch (Exception e) {
             Log.e(TAG, "Could not launch AlarmActivity", e);

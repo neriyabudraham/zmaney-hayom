@@ -222,6 +222,23 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
+        // Down arrow when at last item -> focus FAB; Center/Enter on FAB triggers add
+        if (keyCode == android.view.KeyEvent.KEYCODE_DPAD_DOWN) {
+            View fab = findViewById(R.id.fab_add);
+            View focused = getCurrentFocus();
+            // If nothing focused or list is at end, jump to FAB
+            if (focused == null || focused.getId() != R.id.fab_add) {
+                if (fab != null) {
+                    fab.requestFocus();
+                    return true;
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     public void onToggle(AlertRule rule, boolean enabled) {
         rule.setEnabled(enabled);
         db.updateAlertRule(rule);

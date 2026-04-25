@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:background="?android:windowBackground">
 
-    <!-- Compact toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -20,42 +19,59 @@
         app:navigationIcon="@drawable/ic_menu_hamburger"
         android:focusable="true" />
 
-    <!-- Compact header: clock + date in horizontal row -->
+    <!-- Header row: clock+dates on left (LTR), nav buttons on right (visual right in RTL) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingEnd="8dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
-        <!-- Previous day button -->
-        <ImageButton
-            android:id="@+id/btn_prev_day"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@android:drawable/ic_media_rew"
-            android:background="@drawable/focus_highlight"
-            android:scaleType="fitCenter"
-            android:padding="8dp"
-            android:focusable="true"
-            android:contentDescription="יום קודם" />
+        <!-- Day navigation grouped (will appear at right side in RTL view) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <!-- Calendar picker button -->
-        <ImageButton
-            android:id="@+id/btn_calendar"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@android:drawable/ic_menu_my_calendar"
-            android:background="@drawable/focus_highlight"
-            android:scaleType="fitCenter"
-            android:padding="8dp"
-            android:focusable="true"
-            android:contentDescription="בחר תאריך" />
+            <ImageButton
+                android:id="@+id/btn_prev_day"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_media_rew"
+                android:background="@drawable/focus_highlight"
+                android:scaleType="fitCenter"
+                android:padding="8dp"
+                android:focusable="true"
+                android:contentDescription="יום קודם" />
 
-        <!-- Clock + dates (centered) -->
+            <ImageButton
+                android:id="@+id/btn_calendar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:background="@drawable/focus_highlight"
+                android:scaleType="fitCenter"
+                android:padding="8dp"
+                android:focusable="true"
+                android:contentDescription="בחר תאריך" />
+
+            <ImageButton
+                android:id="@+id/btn_next_day"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_media_ff"
+                android:background="@drawable/focus_highlight"
+                android:scaleType="fitCenter"
+                android:padding="8dp"
+                android:focusable="true"
+                android:contentDescription="יום הבא" />
+        </LinearLayout>
+
+        <!-- Clock + dates - takes remaining space, centered -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -67,8 +83,8 @@
                 android:id="@+id/clock_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="28sp"
-                android:fontFamily="sans-serif-medium"
+                android:textSize="40sp"
+                android:fontFamily="sans-serif-black"
                 android:textStyle="bold"
                 android:format24Hour="HH:mm:ss"
                 android:format12Hour="HH:mm:ss"
@@ -79,7 +95,7 @@
                 android:id="@+id/hebrew_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="22sp"
                 android:fontFamily="sans-serif-medium"
                 android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
@@ -93,18 +109,6 @@
                 android:textColor="?android:textColorSecondary"
                 android:gravity="center" />
         </LinearLayout>
-
-        <!-- Next day button -->
-        <ImageButton
-            android:id="@+id/btn_next_day"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:src="@android:drawable/ic_media_ff"
-            android:background="@drawable/focus_highlight"
-            android:scaleType="fitCenter"
-            android:padding="8dp"
-            android:focusable="true"
-            android:contentDescription="יום הבא" />
     </LinearLayout>
 
     <!-- Today button (visible when viewing different day) -->
@@ -126,7 +130,7 @@
         android:clickable="true"
         android:visibility="gone" />
 
-    <!-- Next alert + Omer badge -->
+    <!-- Omer + next alert -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -134,7 +138,7 @@
         android:gravity="center"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
-        android:paddingBottom="4dp">
+        android:paddingBottom="6dp">
 
         <TextView
             android:id="@+id/omer_text"
@@ -177,7 +181,6 @@
         android:layout_height="1dp"
         android:background="@color/divider_light" />
 
-    <!-- Zmanim List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/zmanim_list"
         android:layout_width="match_parent"

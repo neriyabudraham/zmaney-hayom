@@ -38,7 +38,9 @@ public class AlarmActivity extends AppCompatActivity {
     private Handler autoStopHandler;
     private Runnable autoStopRunnable;
 
+    private static final int MAX_RING_CYCLES = 3;
     private long alarmId;
+    private int ringCycle = 1;
     private String zmanTypeName;
     private long zmanTimeMs;
     private String offsetTypeStr;
@@ -68,6 +70,7 @@ public class AlarmActivity extends AppCompatActivity {
         offsetMinutes = i.getIntExtra(AlarmScheduler.EXTRA_OFFSET_MINUTES, 0);
         soundEnabled = i.getBooleanExtra(AlarmScheduler.EXTRA_SOUND, true);
         vibrateEnabled = i.getBooleanExtra(AlarmScheduler.EXTRA_VIBRATE, true);
+        ringCycle = i.getIntExtra("ring_cycle", 1);
 
         ZmanType zmanType = ZmanType.fromString(zmanTypeName);
         OffsetType offsetType = OffsetType.fromString(offsetTypeStr);
@@ -97,6 +100,17 @@ public class AlarmActivity extends AppCompatActivity {
         }
         detailsView.setText(details);
 
+        // Update auto-stop hint to show cycle
+        TextView hint = findViewById(R.id.auto_stop_hint);
+        if (hint != null) {
+            if (ringCycle >= MAX_RING_CYCLES) {
+                hint.setText("צלצול אחרון מתוך " + MAX_RING_CYCLES + " · יפסיק בעוד 60 שניות");
+            } else {
+                hint.setText("צלצול " + ringCycle + " מתוך " + MAX_RING_CYCLES
+                        + " · יפסיק בעוד 60 שניות");
+            }
+        }
+
         // Start sound + vibration
         startAlarm();
 
@@ -105,8 +119,11 @@ public class AlarmActivity extends AppCompatActivity {
         autoStopRunnable = new Runnable() {
             @Override public void run() {
                 stopAlarmPlayback();
-                // Auto-snooze so it retries later
-                snoozeAlarm();
+                if (ringCycle < MAX_RING_CYCLES) {
+                    // Auto-snooze so it retries later
+                    snoozeAlarm();
+                }
+                // After 3 cycles - just stop completely
                 finish();
             }
         };
@@ -138,26 +155,21 @@ public class AlarmActivity extends AppCompatActivity {
 
     private void startAlarm() {
         if (soundEnabled) {
-            try {
-                String customUri = PreferenceManager.getDefaultSharedPreferences(this)
-                        .getString("custom_ringtone", null);
-                Uri alarmUri;
-                if (customUri != null) {
-                    alarmUri = Uri.parse(customUri);
-                } else {
-                    alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-                    if (alarmUri == null) {
-                        alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                    }
-                }
+            String customUri = PreferenceManager.getDefaultSharedPreferences(this)
+                    .getString("custom_ringtone", null);
 
-                mediaPlayer = new MediaPlayer();
-                mediaPlayer.setDataSource(this, alarmUri);
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-                mediaPlayer.setLooping(true);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (Exception ignored) {}
+            boolean played = false;
+            // Try custom URI first
+            if (customUri != null) {
+                played = tryPlay(Uri.parse(customUri));
+            }
+            // Fallback to default if custom failed
+            if (!played) {
+                Uri def = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                if (def == null) def = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                if (def == null) def = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+                if (def != null) tryPlay(def);
+            }
         }
 
         if (vibrateEnabled) {
@@ -166,6 +178,22 @@ public class AlarmActivity extends AppCompatActivity {
                 long[] pattern = {0, 600, 400};
                 vibrator.vibrate(pattern, 0);
             }
+        }
+    }
+
+    private boolean tryPlay(Uri uri) {
+        try {
+            MediaPlayer mp = new MediaPlayer();
+            mp.setDataSource(this, uri);
+            mp.setAudioStreamType(AudioManager.STREAM_ALARM);
+            mp.setLooping(true);
+            mp.prepare();
+            mp.start();
+            mediaPlayer = mp;
+            return true;
+        } catch (Exception e) {
+            android.util.Log.w("AlarmActivity", "Failed to play " + uri, e);
+            return false;
         }
     }
 
@@ -200,6 +228,7 @@ public class AlarmActivity extends AppCompatActivity {
             intent.putExtra(AlarmScheduler.EXTRA_SOUND, soundEnabled);
             intent.putExtra(AlarmScheduler.EXTRA_VIBRATE, vibrateEnabled);
             intent.putExtra("is_snooze", true);
+            intent.putExtra("ring_cycle", ringCycle + 1);
 
             int flags = PendingIntent.FLAG_UPDATE_CURRENT;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
