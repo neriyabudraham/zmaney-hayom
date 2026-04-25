@@ -76,6 +76,83 @@ public class MainActivity extends AppCompatActivity {
                 handler.postDelayed(this, 30000);
             }
         };
+
+        // Check for updates in background (only once per session)
+        checkForUpdatesIfNeeded();
+    }
+
+    private void checkForUpdatesIfNeeded() {
+        // Throttle: only check at most once per 6 hours
+        long lastCheck = prefs.getLong("last_update_check", 0);
+        long now = System.currentTimeMillis();
+        if (now - lastCheck < 6 * 60 * 60 * 1000L) return;
+
+        com.botomat.zmaneyhayom.utils.UpdateChecker.check(this,
+                new com.botomat.zmaneyhayom.utils.UpdateChecker.UpdateCallback() {
+            @Override
+            public void onResult(com.botomat.zmaneyhayom.utils.UpdateChecker.UpdateResult result) {
+                if (result == null || !result.updateAvailable) {
+                    // Clear pending update flag
+                    prefs.edit()
+                            .putBoolean("update_pending", false)
+                            .putInt("pending_update_code", 0)
+                            .putLong("last_update_check", System.currentTimeMillis())
+                            .apply();
+                    return;
+                }
+
+                prefs.edit()
+                        .putBoolean("update_pending", true)
+                        .putInt("pending_update_code", result.latestVersionCode)
+                        .putString("pending_update_name", result.latestVersionName)
+                        .putLong("last_update_check", System.currentTimeMillis())
+                        .apply();
+
+                // If user skipped this exact version - don't popup
+                int skipped = prefs.getInt("skipped_update_code", 0);
+                if (skipped == result.latestVersionCode) return;
+
+                showUpdateAvailablePopup(result);
+            }
+        });
+    }
+
+    private void showUpdateAvailablePopup(
+            final com.botomat.zmaneyhayom.utils.UpdateChecker.UpdateResult result) {
+        StringBuilder changes = new StringBuilder();
+        if (!result.allVersions.isEmpty()) {
+            com.botomat.zmaneyhayom.utils.UpdateChecker.VersionInfo vi = result.allVersions.get(0);
+            for (int i = 0; i < Math.min(5, vi.changes.size()); i++) {
+                changes.append("• ").append(vi.changes.get(i)).append('\n');
+            }
+        }
+        String msg = "גרסה נוכחית: " + result.currentVersionName +
+                "\nגרסה חדשה: " + result.latestVersionName + "\n\n";
+        if (changes.length() > 0) {
+            msg += "מה חדש:\n" + changes.toString();
+        }
+
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("עדכון חדש זמין!")
+                .setMessage(msg)
+                .setPositiveButton("עדכן עכשיו",
+                        new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(android.content.DialogInterface d, int w) {
+                        startActivity(new Intent(MainActivity.this, UpdateActivity.class));
+                    }
+                })
+                .setNeutralButton("אחר כך", null)
+                .setNegativeButton("דלג על גרסה זו",
+                        new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(android.content.DialogInterface d, int w) {
+                        prefs.edit()
+                                .putInt("skipped_update_code", result.latestVersionCode)
+                                .apply();
+                    }
+                })
+                .show();
     }
 
     private void initViews() {
@@ -176,6 +253,16 @@ public class MainActivity extends AppCompatActivity {
         boolean dark = ThemeHelper.isDarkMode(this);
         dialogView.setBackgroundResource(dark ? R.drawable.card_bg_dark : R.drawable.card_bg_light);
         applyDialogTextColors(dialogView, dark);
+
+        // Show blue dot if update is pending
+        boolean updatePending = prefs.getBoolean("update_pending", false);
+        int pendingCode = prefs.getInt("pending_update_code", 0);
+        int skippedCode = prefs.getInt("skipped_update_code", 0);
+        // Show dot even if user "skipped" - they should still see something pending
+        View updateDot = dialogView.findViewById(R.id.menu_update_dot);
+        if (updateDot != null) {
+            updateDot.setVisibility(updatePending && pendingCode > 0 ? View.VISIBLE : View.GONE);
+        }
 
         android.app.Dialog dialog = new android.app.Dialog(this);
         dialog.requestWindowFeature(android.view.Window.FEATURE_NO_TITLE);
