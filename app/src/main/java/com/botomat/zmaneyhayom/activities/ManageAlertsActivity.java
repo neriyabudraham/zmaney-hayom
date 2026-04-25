@@ -22,8 +22,6 @@ import com.botomat.zmaneyhayom.utils.AlarmScheduler;
 import com.botomat.zmaneyhayom.utils.ThemeHelper;
 import com.botomat.zmaneyhayom.utils.ZmanimCalculator;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -45,6 +43,16 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) { finish(); }
         });
+        toolbar.setOnMenuItemClickListener(new com.google.android.material.appbar.MaterialToolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(android.view.MenuItem item) {
+                if (item.getItemId() == R.id.action_add) {
+                    showAlertDialog(null);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         emptyText = findViewById(R.id.empty_text);
 
@@ -53,11 +61,6 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
         adapter = new AlertsAdapter();
         adapter.setListener(this);
         recyclerView.setAdapter(adapter);
-
-        FloatingActionButton fab = findViewById(R.id.fab_add);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) { showAlertDialog(null); }
-        });
 
         loadAlerts();
     }
@@ -223,17 +226,10 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
 
     @Override
     public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
-        // Down arrow when at last item -> focus FAB; Center/Enter on FAB triggers add
-        if (keyCode == android.view.KeyEvent.KEYCODE_DPAD_DOWN) {
-            View fab = findViewById(R.id.fab_add);
-            View focused = getCurrentFocus();
-            // If nothing focused or list is at end, jump to FAB
-            if (focused == null || focused.getId() != R.id.fab_add) {
-                if (fab != null) {
-                    fab.requestFocus();
-                    return true;
-                }
-            }
+        // Menu key opens add alert dialog directly
+        if (keyCode == android.view.KeyEvent.KEYCODE_MENU) {
+            showAlertDialog(null);
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

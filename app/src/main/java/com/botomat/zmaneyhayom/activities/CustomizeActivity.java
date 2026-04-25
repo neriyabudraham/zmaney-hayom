@@ -118,9 +118,21 @@ public class CustomizeActivity extends AppCompatActivity {
 
     private void pickAudioFile() {
         try {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("audio/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            Intent intent;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                // Use ACTION_OPEN_DOCUMENT for persistable URI permissions
+                intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("audio/*");
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                }
+            } else {
+                intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("audio/*");
+            }
             startActivityForResult(Intent.createChooser(intent, "בחר קובץ אודיו"), PICK_AUDIO_FILE);
         } catch (Exception e) {
             android.widget.Toast.makeText(this, "לא ניתן לפתוח בורר קבצים",
@@ -134,15 +146,48 @@ public class CustomizeActivity extends AppCompatActivity {
         if (requestCode == PICK_AUDIO_FILE && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
             if (uri != null) {
+                // Try to persist URI permission (works only with ACTION_OPEN_DOCUMENT)
                 try {
-                    // Persist permission to read this URI
                     getContentResolver().takePersistableUriPermission(
                             uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 } catch (Exception ignored) {}
-                prefs.edit().putString("custom_ringtone", uri.toString()).apply();
-                updateRingtoneLabel();
-                previewUri(uri);
+
+                // Copy file to internal storage so alarm can play it later
+                String localPath = copyAudioToInternalStorage(uri);
+                if (localPath != null) {
+                    prefs.edit().putString("custom_ringtone", "file://" + localPath).apply();
+                    updateRingtoneLabel();
+                    previewUri(Uri.parse("file://" + localPath));
+                } else {
+                    // Fallback - save the URI as-is
+                    prefs.edit().putString("custom_ringtone", uri.toString()).apply();
+                    updateRingtoneLabel();
+                    previewUri(uri);
+                }
             }
+        }
+    }
+
+    private String copyAudioToInternalStorage(Uri uri) {
+        try {
+            java.io.File outFile = new java.io.File(getFilesDir(), "custom_alarm.audio");
+            if (outFile.exists()) outFile.delete();
+
+            java.io.InputStream in = getContentResolver().openInputStream(uri);
+            if (in == null) return null;
+
+            java.io.FileOutputStream out = new java.io.FileOutputStream(outFile);
+            byte[] buf = new byte[4096];
+            int n;
+            while ((n = in.read(buf)) > 0) {
+                out.write(buf, 0, n);
+            }
+            in.close();
+            out.close();
+            return outFile.getAbsolutePath();
+        } catch (Exception e) {
+            android.util.Log.e("CustomizeActivity", "Failed to copy audio", e);
+            return null;
         }
     }
 
