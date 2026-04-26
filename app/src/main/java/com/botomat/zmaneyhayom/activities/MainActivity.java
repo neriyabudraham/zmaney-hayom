@@ -438,25 +438,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-        // Long-press OK / Center / Enter opens main menu (alternative if # / * not available)
-        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER
-                || keyCode == KeyEvent.KEYCODE_ENTER
-                || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-            showCustomMenu();
-            return true;
-        }
-        return super.onKeyLongPress(keyCode, event);
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // Mark long-pressable keys for menu access
-        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER
-                || keyCode == KeyEvent.KEYCODE_ENTER
-                || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-            event.startTracking();
-        }
         // Scroll zmanim list with D-pad or volume keys
         if (keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_VOLUME_UP
                 || keyCode == KeyEvent.KEYCODE_PAGE_UP) {
@@ -483,12 +465,23 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
-        // # / * / Menu / Soft-left key opens main menu
-        if (keyCode == KeyEvent.KEYCODE_POUND
-                || keyCode == KeyEvent.KEYCODE_STAR
+        // OK / Enter / Menu / Soft-left = MAIN MENU
+        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER
+                || keyCode == KeyEvent.KEYCODE_ENTER
                 || keyCode == KeyEvent.KEYCODE_MENU
                 || keyCode == KeyEvent.KEYCODE_SOFT_LEFT) {
             showCustomMenu();
+            return true;
+        }
+        // * (STAR) = CALENDAR PICKER
+        if (keyCode == KeyEvent.KEYCODE_STAR) {
+            showDatePicker();
+            return true;
+        }
+        // # (POUND) - back to today
+        if (keyCode == KeyEvent.KEYCODE_POUND) {
+            viewedDay = Calendar.getInstance();
+            refreshView();
             return true;
         }
         // Left arrow = previous day
@@ -499,11 +492,6 @@ public class MainActivity extends AppCompatActivity {
         // Right arrow = next day
         if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
             changeDay(1);
-            return true;
-        }
-        // Center/Enter opens calendar picker
-        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
-            showDatePicker();
             return true;
         }
         // Number keys 1/2/3 for quick day nav
