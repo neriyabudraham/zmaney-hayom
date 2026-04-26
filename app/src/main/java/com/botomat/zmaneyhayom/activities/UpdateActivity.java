@@ -119,16 +119,24 @@ public class UpdateActivity extends AppCompatActivity {
         statusText.setText("מוריד עדכון…");
 
         try {
-            // Delete old APK if exists
-            File file = new File(getExternalCacheDir(), "zmaney-hayom-update.apk");
-            if (file.exists()) file.delete();
+            // Delete previous downloads in Downloads dir
+            try {
+                File downloadsDir = android.os.Environment.getExternalStoragePublicDirectory(
+                        android.os.Environment.DIRECTORY_DOWNLOADS);
+                File old = new File(downloadsDir, "zmaney-hayom-update.apk");
+                if (old.exists()) old.delete();
+            } catch (Exception ignored) {}
 
             DownloadManager.Request req = new DownloadManager.Request(Uri.parse(apkUrlToDownload));
-            req.setTitle("זמני היום");
+            req.setTitle("זמני היום - עדכון");
             req.setDescription("הורדת עדכון…");
             req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            req.setDestinationInExternalFilesDir(this, null, "zmaney-hayom-update.apk");
+            // Save to public Downloads dir - readable by package installer on all API levels
+            req.setDestinationInExternalPublicDir(
+                    android.os.Environment.DIRECTORY_DOWNLOADS,
+                    "zmaney-hayom-update.apk");
             req.setMimeType("application/vnd.android.package-archive");
+            req.allowScanningByMediaScanner();
 
             DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
             downloadId = dm.enqueue(req);
@@ -136,6 +144,7 @@ public class UpdateActivity extends AppCompatActivity {
             registerDownloadReceiver();
             pollDownloadProgress();
         } catch (Exception e) {
+            android.util.Log.e("UpdateActivity", "Download failed", e);
             statusText.setText("שגיאה בהורדה: " + e.getMessage());
             btnUpdate.setEnabled(true);
             btnUpdate.setText("נסה שוב");
@@ -201,42 +210,64 @@ public class UpdateActivity extends AppCompatActivity {
         if (c != null && c.moveToFirst()) {
             int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
             if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                String localUri = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                int localUriIdx = c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
+                int localPathIdx = c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME);
+                String localUri = localUriIdx >= 0 ? c.getString(localUriIdx) : null;
+                String localPath = localPathIdx >= 0 ? c.getString(localPathIdx) : null;
                 c.close();
-                launchInstall(Uri.parse(localUri));
+                File apkFile = null;
+                if (localPath != null) apkFile = new File(localPath);
+                if (apkFile == null || !apkFile.exists()) {
+                    apkFile = new File(android.os.Environment.getExternalStoragePublicDirectory(
+                            android.os.Environment.DIRECTORY_DOWNLOADS),
+                            "zmaney-hayom-update.apk");
+                }
+                launchInstall(apkFile, localUri);
             } else {
+                int reasonIdx = c.getColumnIndex(DownloadManager.COLUMN_REASON);
+                int reason = reasonIdx >= 0 ? c.getInt(reasonIdx) : -1;
                 c.close();
-                Toast.makeText(this, "הורדה נכשלה", Toast.LENGTH_LONG).show();
+                String msg = "ההורדה נכשלה (קוד: " + reason + ")";
+                android.util.Log.e("UpdateActivity", msg);
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                 btnUpdate.setEnabled(true);
                 btnUpdate.setText("נסה שוב");
-                statusText.setText("ההורדה נכשלה");
+                statusText.setText(msg);
             }
         }
     }
 
-    private void launchInstall(Uri fileUri) {
+    private void launchInstall(File apkFile, String fallbackUri) {
         try {
+            if (apkFile == null || !apkFile.exists()) {
+                throw new Exception("קובץ ה-APK לא נמצא");
+            }
+
             Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
             Uri installUri;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                File file;
-                if ("file".equals(fileUri.getScheme())) {
-                    file = new File(fileUri.getPath());
-                } else {
-                    file = new File(getExternalFilesDir(null), "zmaney-hayom-update.apk");
-                }
+                // API 24+ requires FileProvider
                 installUri = FileProvider.getUriForFile(
-                        this, getPackageName() + ".fileprovider", file);
+                        this, getPackageName() + ".fileprovider", apkFile);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             } else {
-                installUri = fileUri;
+                // API < 24: use direct file:// URI
+                installUri = Uri.fromFile(apkFile);
             }
+
             intent.setDataAndType(installUri, "application/vnd.android.package-archive");
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         } catch (Exception e) {
-            Toast.makeText(this, "שגיאת התקנה: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            android.util.Log.e("UpdateActivity", "Install failed", e);
+            String errMsg = "שגיאת התקנה: " + e.getClass().getSimpleName()
+                    + " - " + e.getMessage();
+            statusText.setText(errMsg);
+            Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show();
+            btnUpdate.setEnabled(true);
+            btnUpdate.setText("נסה שוב");
         }
     }
 
