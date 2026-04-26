@@ -283,10 +283,6 @@ public class MainActivity extends AppCompatActivity {
             dialog.dismiss();
             startActivity(new Intent(this, ManageAlertsActivity.class));
         });
-        dialogView.findViewById(R.id.menu_history).setOnClickListener(v -> {
-            dialog.dismiss();
-            startActivity(new Intent(this, AlertHistoryActivity.class));
-        });
         dialogView.findViewById(R.id.menu_customize).setOnClickListener(v -> {
             dialog.dismiss();
             startActivity(new Intent(this, CustomizeActivity.class));

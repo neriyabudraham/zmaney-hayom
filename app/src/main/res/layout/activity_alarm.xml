@@ -70,39 +70,50 @@
                 android:layout_marginTop="6dp"
                 android:text="מפסיק בעוד 60 שניות" />
 
-            <!-- Snooze button - outlined, smaller -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_snooze"
+            <!-- Stop + Snooze side-by-side -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
-                android:text="🛌  נודניק"
-                android:textSize="17sp"
-                android:textAllCaps="false"
-                android:fontFamily="sans-serif-medium"
-                app:cornerRadius="100dp"
-                app:strokeWidth="2dp"
-                app:strokeColor="?colorPrimary"
-                android:textColor="?colorPrimary"
-                android:focusable="true"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                android:gravity="center">
 
-            <!-- Stop button - solid red, prominent -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_dismiss"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="10dp"
-                android:text="🔴  עצור"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textAllCaps="false"
-                android:fontFamily="sans-serif-black"
-                android:textColor="@color/white"
-                app:cornerRadius="100dp"
-                android:focusable="true"
-                android:backgroundTint="@color/alarm_red"
-                app:elevation="2dp" />
+                <!-- Snooze button - outlined -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_snooze"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    android:text="🛌  נודניק"
+                    android:textSize="16sp"
+                    android:textAllCaps="false"
+                    android:fontFamily="sans-serif-medium"
+                    app:cornerRadius="100dp"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="?colorPrimary"
+                    android:textColor="?colorPrimary"
+                    android:focusable="true"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                <!-- Stop button - solid red, prominent -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_dismiss"
+                    android:layout_width="0dp"
+                    android:layout_height="64dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:text="✋ עצור"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/white"
+                    app:cornerRadius="100dp"
+                    android:focusable="true"
+                    android:backgroundTint="@color/alarm_red"
+                    app:elevation="2dp" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
