@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_description"
                 android:textSize="11sp"
-                android:textColor="@color/text_secondary_light" />
+                android:textColor="?android:textColorSecondary" />
         </LinearLayout>
     </LinearLayout>
 
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:text="@string/manage_alerts"
             android:textSize="16sp"
-            android:textColor="@color/text_primary_light" />
+            android:textColor="?android:textColorPrimary" />
     </LinearLayout>
 
     <LinearLayout
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:text="@string/customize"
             android:textSize="16sp"
-            android:textColor="@color/text_primary_light" />
+            android:textColor="?android:textColorPrimary" />
     </LinearLayout>
 
     <LinearLayout
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:text="@string/settings"
             android:textSize="16sp"
-            android:textColor="@color/text_primary_light" />
+            android:textColor="?android:textColorPrimary" />
     </LinearLayout>
 
     <View
@@ -165,14 +165,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/theme"
                 android:textSize="16sp"
-                android:textColor="@color/text_primary_light" />
+                android:textColor="?android:textColorPrimary" />
 
             <TextView
                 android:id="@+id/menu_theme_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:textColor="@color/text_secondary_light" />
+                android:textColor="?android:textColorSecondary" />
         </LinearLayout>
     </LinearLayout>
 
@@ -199,7 +199,7 @@
             android:layout_height="wrap_content"
             android:text="@string/share_app"
             android:textSize="16sp"
-            android:textColor="@color/text_primary_light" />
+            android:textColor="?android:textColorPrimary" />
     </LinearLayout>
 
     <LinearLayout
@@ -226,7 +226,7 @@
             android:layout_weight="1"
             android:text="בדוק עדכונים"
             android:textSize="16sp"
-            android:textColor="@color/text_primary_light" />
+            android:textColor="?android:textColorPrimary" />
 
         <!-- Blue dot indicator when update pending -->
         <View
@@ -260,6 +260,6 @@
             android:layout_height="wrap_content"
             android:text="@string/about"
             android:textSize="16sp"
-            android:textColor="@color/text_primary_light" />
+            android:textColor="?android:textColorPrimary" />
     </LinearLayout>
 </LinearLayout>

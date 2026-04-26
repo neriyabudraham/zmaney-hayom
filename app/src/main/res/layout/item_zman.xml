@@ -28,7 +28,7 @@
         android:layout_weight="1"
         android:textSize="15sp"
         android:fontFamily="sans-serif"
-        android:textColor="@color/text_primary_light" />
+        android:textColor="?android:textColorPrimary" />
 
     <TextView
         android:id="@+id/zman_time"

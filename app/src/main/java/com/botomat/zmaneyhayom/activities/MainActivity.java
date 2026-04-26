@@ -249,10 +249,9 @@ public class MainActivity extends AppCompatActivity {
     private void showCustomMenu() {
         android.view.View dialogView = getLayoutInflater().inflate(R.layout.dialog_menu, null);
 
-        // Apply theme-appropriate background
+        // Apply theme-appropriate background (text colors auto-adapt via theme attrs)
         boolean dark = ThemeHelper.isDarkMode(this);
         dialogView.setBackgroundResource(dark ? R.drawable.card_bg_dark : R.drawable.card_bg_light);
-        applyDialogTextColors(dialogView, dark);
 
         // Show blue dot if update is pending
         boolean updatePending = prefs.getBoolean("update_pending", false);

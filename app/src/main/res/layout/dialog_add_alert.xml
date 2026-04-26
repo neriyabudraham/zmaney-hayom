@@ -17,7 +17,7 @@
             android:textSize="13sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:textColor="@color/text_secondary_light"
+            android:textColor="?android:textColorSecondary"
             android:paddingBottom="4dp" />
 
         <LinearLayout
@@ -39,7 +39,7 @@
                 android:layout_weight="1"
                 android:textSize="16sp"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/text_primary_light"
+                android:textColor="?android:textColorPrimary"
                 android:text="בחר זמן..." />
 
             <TextView
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="▼"
                 android:textSize="12sp"
-                android:textColor="@color/text_secondary_light" />
+                android:textColor="?android:textColorSecondary" />
         </LinearLayout>
 
         <!-- Offset type -->
@@ -58,7 +58,7 @@
             android:textSize="13sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:textColor="@color/text_secondary_light"
+            android:textColor="?android:textColorSecondary"
             android:paddingTop="14dp"
             android:paddingBottom="4dp" />
 
@@ -81,7 +81,7 @@
                 android:layout_weight="1"
                 android:textSize="16sp"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/text_primary_light"
+                android:textColor="?android:textColorPrimary"
                 android:text="בזמן" />
 
             <TextView
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:text="▼"
                 android:textSize="12sp"
-                android:textColor="@color/text_secondary_light" />
+                android:textColor="?android:textColorSecondary" />
         </LinearLayout>
 
         <!-- Offset value -->
@@ -101,7 +101,7 @@
             android:textSize="13sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:textColor="@color/text_secondary_light"
+            android:textColor="?android:textColorSecondary"
             android:paddingTop="14dp"
             android:paddingBottom="4dp" />
 
@@ -112,7 +112,7 @@
             android:inputType="number"
             android:hint="0"
             android:textSize="16sp"
-            android:textColor="@color/text_primary_light"
+            android:textColor="?android:textColorPrimary"
             android:background="@drawable/edit_text_bg"
             android:paddingStart="14dp"
             android:paddingEnd="14dp"
@@ -126,7 +126,7 @@
             android:textSize="13sp"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:textColor="@color/text_secondary_light"
+            android:textColor="?android:textColorSecondary"
             android:paddingTop="14dp"
             android:paddingBottom="8dp" />
 
@@ -139,31 +139,31 @@
             <CheckBox android:id="@+id/day_sun" android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="א" android:textSize="13sp" android:checked="true"
                 android:gravity="center" android:paddingStart="0dp" android:paddingEnd="0dp"
-                android:textColor="@color/text_primary_light" />
+                android:textColor="?android:textColorPrimary" />
             <CheckBox android:id="@+id/day_mon" android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="ב" android:textSize="13sp" android:checked="true"
                 android:gravity="center" android:paddingStart="0dp" android:paddingEnd="0dp"
-                android:textColor="@color/text_primary_light" />
+                android:textColor="?android:textColorPrimary" />
             <CheckBox android:id="@+id/day_tue" android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="ג" android:textSize="13sp" android:checked="true"
                 android:gravity="center" android:paddingStart="0dp" android:paddingEnd="0dp"
-                android:textColor="@color/text_primary_light" />
+                android:textColor="?android:textColorPrimary" />
             <CheckBox android:id="@+id/day_wed" android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="ד" android:textSize="13sp" android:checked="true"
                 android:gravity="center" android:paddingStart="0dp" android:paddingEnd="0dp"
-                android:textColor="@color/text_primary_light" />
+                android:textColor="?android:textColorPrimary" />
             <CheckBox android:id="@+id/day_thu" android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="ה" android:textSize="13sp" android:checked="true"
                 android:gravity="center" android:paddingStart="0dp" android:paddingEnd="0dp"
-                android:textColor="@color/text_primary_light" />
+                android:textColor="?android:textColorPrimary" />
             <CheckBox android:id="@+id/day_fri" android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="ו" android:textSize="13sp" android:checked="true"
                 android:gravity="center" android:paddingStart="0dp" android:paddingEnd="0dp"
-                android:textColor="@color/text_primary_light" />
+                android:textColor="?android:textColorPrimary" />
             <CheckBox android:id="@+id/day_sat" android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="ש" android:textSize="13sp" android:checked="true"
                 android:gravity="center" android:paddingStart="0dp" android:paddingEnd="0dp"
-                android:textColor="@color/text_primary_light" />
+                android:textColor="?android:textColorPrimary" />
         </LinearLayout>
 
         <LinearLayout
@@ -203,7 +203,7 @@
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="@string/sound" android:checked="true"
             android:textSize="14sp"
-            android:textColor="@color/text_primary_light"
+            android:textColor="?android:textColorPrimary"
             android:minHeight="44dp"
             android:paddingTop="8dp" />
 
@@ -212,7 +212,7 @@
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="@string/vibrate" android:checked="true"
             android:textSize="14sp"
-            android:textColor="@color/text_primary_light"
+            android:textColor="?android:textColorPrimary"
             android:minHeight="44dp" />
     </LinearLayout>
 </ScrollView>

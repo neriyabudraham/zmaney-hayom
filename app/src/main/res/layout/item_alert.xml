@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@color/text_primary_light" />
+                android:textColor="?android:textColorPrimary" />
 
             <TextView
                 android:id="@+id/alert_offset_text"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="sans-serif"
-                android:textColor="@color/text_secondary_light"
+                android:textColor="?android:textColorSecondary"
                 android:paddingTop="2dp" />
 
             <TextView

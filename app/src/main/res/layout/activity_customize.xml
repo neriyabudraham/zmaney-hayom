@@ -62,14 +62,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/choose_ringtone"
                         android:textSize="15sp"
-                        android:textColor="@color/text_primary_light" />
+                        android:textColor="?android:textColorPrimary" />
 
                     <TextView
                         android:id="@+id/txt_current_ringtone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:textColor="@color/text_secondary_light" />
+                        android:textColor="?android:textColorSecondary" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:text="א"
                     android:textSize="22sp"
-                    android:textColor="@color/text_secondary_light" />
+                    android:textColor="?android:textColorSecondary" />
 
                 <SeekBar
                     android:id="@+id/seekbar_font_size"
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:text="א"
                     android:textSize="12sp"
-                    android:textColor="@color/text_secondary_light" />
+                    android:textColor="?android:textColorSecondary" />
             </LinearLayout>
 
             <TextView
@@ -123,7 +123,7 @@
                 android:gravity="center"
                 android:padding="8dp"
                 android:textSize="14sp"
-                android:textColor="@color/text_primary_light" />
+                android:textColor="?android:textColorPrimary" />
 
         </LinearLayout>
     </ScrollView>
