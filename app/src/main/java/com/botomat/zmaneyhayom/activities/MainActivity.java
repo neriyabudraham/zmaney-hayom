@@ -465,15 +465,43 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
-        // Left arrow or Menu key opens the side menu (hamburger)
-        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_MENU
-                || keyCode == KeyEvent.KEYCODE_SOFT_LEFT) {
+        // Left arrow = previous day (in RTL, left key feels natural for "back in time")
+        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+            changeDay(-1);
+            return true;
+        }
+        // Right arrow = next day
+        if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+            changeDay(1);
+            return true;
+        }
+        // Menu key opens main menu
+        if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_SOFT_LEFT) {
             showCustomMenu();
             return true;
         }
-        // Enter/center opens menu too (fallback)
+        // Center/Enter opens calendar picker
         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
-            showCustomMenu();
+            showDatePicker();
+            return true;
+        }
+        // Number keys 1/2/3 for quick day nav
+        if (keyCode == KeyEvent.KEYCODE_1) {
+            changeDay(-1);
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_2) {
+            showDatePicker();
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_3) {
+            changeDay(1);
+            return true;
+        }
+        // Number 0 - return to today
+        if (keyCode == KeyEvent.KEYCODE_0) {
+            viewedDay = Calendar.getInstance();
+            refreshView();
             return true;
         }
         return super.onKeyDown(keyCode, event);

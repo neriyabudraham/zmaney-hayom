@@ -63,18 +63,26 @@ public class CustomizeActivity extends AppCompatActivity {
         String uri = prefs.getString("custom_ringtone", null);
         if (uri == null) {
             currentRingtoneText.setText(getString(R.string.default_ringtone));
-        } else {
-            try {
-                android.media.Ringtone r = RingtoneManager.getRingtone(this, Uri.parse(uri));
-                if (r != null) {
-                    currentRingtoneText.setText(r.getTitle(this));
-                } else {
-                    currentRingtoneText.setText(getString(R.string.custom_ringtone));
-                }
-            } catch (Exception e) {
-                currentRingtoneText.setText(getString(R.string.custom_ringtone));
-            }
+            return;
         }
+        // Prefer saved display name (for custom audio files)
+        String savedName = prefs.getString("custom_ringtone_name", null);
+        if (savedName != null && !savedName.isEmpty()) {
+            currentRingtoneText.setText(savedName);
+            return;
+        }
+        // Try to get title from RingtoneManager (for system ringtones)
+        try {
+            android.media.Ringtone r = RingtoneManager.getRingtone(this, Uri.parse(uri));
+            if (r != null) {
+                String title = r.getTitle(this);
+                if (title != null && !title.isEmpty()) {
+                    currentRingtoneText.setText(title);
+                    return;
+                }
+            }
+        } catch (Exception ignored) {}
+        currentRingtoneText.setText(getString(R.string.custom_ringtone));
     }
 
     private void setupListeners() {
@@ -108,7 +116,10 @@ public class CustomizeActivity extends AppCompatActivity {
                         } else if (which == 1) {
                             pickAudioFile();
                         } else {
-                            prefs.edit().remove("custom_ringtone").apply();
+                            prefs.edit()
+                                    .remove("custom_ringtone")
+                                    .remove("custom_ringtone_name")
+                                    .apply();
                             updateRingtoneLabel();
                         }
                     }
@@ -152,20 +163,64 @@ public class CustomizeActivity extends AppCompatActivity {
                             uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 } catch (Exception ignored) {}
 
+                // Get display name from URI
+                String displayName = queryDisplayName(uri);
+
                 // Copy file to internal storage so alarm can play it later
                 String localPath = copyAudioToInternalStorage(uri);
                 if (localPath != null) {
-                    prefs.edit().putString("custom_ringtone", "file://" + localPath).apply();
+                    prefs.edit()
+                            .putString("custom_ringtone", "file://" + localPath)
+                            .putString("custom_ringtone_name", displayName)
+                            .apply();
                     updateRingtoneLabel();
                     previewUri(Uri.parse("file://" + localPath));
                 } else {
-                    // Fallback - save the URI as-is
-                    prefs.edit().putString("custom_ringtone", uri.toString()).apply();
+                    prefs.edit()
+                            .putString("custom_ringtone", uri.toString())
+                            .putString("custom_ringtone_name", displayName)
+                            .apply();
                     updateRingtoneLabel();
                     previewUri(uri);
                 }
             }
         }
+    }
+
+    private String queryDisplayName(Uri uri) {
+        Cursor c = null;
+        try {
+            c = getContentResolver().query(uri,
+                    new String[]{android.provider.OpenableColumns.DISPLAY_NAME},
+                    null, null, null);
+            if (c != null && c.moveToFirst()) {
+                int idx = c.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME);
+                if (idx >= 0) {
+                    String name = c.getString(idx);
+                    if (name != null && !name.isEmpty()) {
+                        // Strip extension for cleaner display
+                        int dot = name.lastIndexOf('.');
+                        if (dot > 0) name = name.substring(0, dot);
+                        return name;
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        } finally {
+            if (c != null) c.close();
+        }
+        // Fallback - extract from URI path
+        String path = uri.getPath();
+        if (path != null) {
+            int slash = path.lastIndexOf('/');
+            if (slash >= 0 && slash < path.length() - 1) {
+                String name = path.substring(slash + 1);
+                int dot = name.lastIndexOf('.');
+                if (dot > 0) name = name.substring(0, dot);
+                return name;
+            }
+        }
+        return null;
     }
 
     private String copyAudioToInternalStorage(Uri uri) {
@@ -209,6 +264,7 @@ public class CustomizeActivity extends AppCompatActivity {
             uris.add(uri);
         }
 
+        final List<String> finalNames = names;
         new AlertDialog.Builder(this)
                 .setTitle(R.string.choose_ringtone)
                 .setItems(names.toArray(new String[0]), new android.content.DialogInterface.OnClickListener() {
@@ -216,9 +272,15 @@ public class CustomizeActivity extends AppCompatActivity {
                     public void onClick(android.content.DialogInterface dialog, int which) {
                         final Uri selectedUri = uris.get(which);
                         if (which == 0) {
-                            prefs.edit().remove("custom_ringtone").apply();
+                            prefs.edit()
+                                    .remove("custom_ringtone")
+                                    .remove("custom_ringtone_name")
+                                    .apply();
                         } else {
-                            prefs.edit().putString("custom_ringtone", selectedUri.toString()).apply();
+                            prefs.edit()
+                                    .putString("custom_ringtone", selectedUri.toString())
+                                    .putString("custom_ringtone_name", finalNames.get(which))
+                                    .apply();
                         }
                         updateRingtoneLabel();
                         previewUri(selectedUri);

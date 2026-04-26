@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,10 +60,7 @@ public class UpdateChecker {
 
                 HttpURLConnection conn = null;
                 try {
-                    URL url = new URL(VERSIONS_URL);
-                    conn = (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(10000);
-                    conn.setReadTimeout(10000);
+                    conn = TrustingHttp.open(VERSIONS_URL);
                     conn.setRequestMethod("GET");
                     int code = conn.getResponseCode();
                     if (code != 200) {

@@ -1,12 +1,8 @@
 package com.botomat.zmaneyhayom.activities;
 
-import android.app.DownloadManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -22,11 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.botomat.zmaneyhayom.R;
 import com.botomat.zmaneyhayom.adapters.ChangelogAdapter;
 import com.botomat.zmaneyhayom.utils.ThemeHelper;
+import com.botomat.zmaneyhayom.utils.TrustingHttp;
 import com.botomat.zmaneyhayom.utils.UpdateChecker;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 
 public class UpdateActivity extends AppCompatActivity {
 
@@ -39,8 +39,7 @@ public class UpdateActivity extends AppCompatActivity {
     private ChangelogAdapter adapter;
 
     private String apkUrlToDownload;
-    private long downloadId = -1;
-    private BroadcastReceiver downloadReceiver;
+    private DownloadTask downloadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,144 +115,106 @@ public class UpdateActivity extends AppCompatActivity {
         btnUpdate.setEnabled(false);
         btnUpdate.setText("מוריד…");
         downloadProgress.setVisibility(View.VISIBLE);
+        downloadProgress.setProgress(0);
         statusText.setText("מוריד עדכון…");
 
-        try {
-            // Delete previous downloads in Downloads dir
+        downloadTask = new DownloadTask();
+        downloadTask.execute(apkUrlToDownload);
+    }
+
+    private class DownloadTask extends AsyncTask<String, Integer, File> {
+        private String errorMessage;
+
+        @Override
+        protected File doInBackground(String... params) {
+            HttpURLConnection conn = null;
+            InputStream in = null;
+            FileOutputStream out = null;
             try {
-                File downloadsDir = android.os.Environment.getExternalStoragePublicDirectory(
-                        android.os.Environment.DIRECTORY_DOWNLOADS);
-                File old = new File(downloadsDir, "zmaney-hayom-update.apk");
-                if (old.exists()) old.delete();
-            } catch (Exception ignored) {}
+                String url = params[0];
 
-            DownloadManager.Request req = new DownloadManager.Request(Uri.parse(apkUrlToDownload));
-            req.setTitle("זמני היום - עדכון");
-            req.setDescription("הורדת עדכון…");
-            req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            // Save to public Downloads dir - readable by package installer on all API levels
-            req.setDestinationInExternalPublicDir(
-                    android.os.Environment.DIRECTORY_DOWNLOADS,
-                    "zmaney-hayom-update.apk");
-            req.setMimeType("application/vnd.android.package-archive");
-            req.allowScanningByMediaScanner();
+                // Save to public Downloads dir
+                File dir = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DOWNLOADS);
+                if (!dir.exists()) dir.mkdirs();
+                File outFile = new File(dir, "zmaney-hayom-update.apk");
+                if (outFile.exists()) outFile.delete();
 
-            DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-            downloadId = dm.enqueue(req);
+                conn = TrustingHttp.open(url);
+                conn.setRequestMethod("GET");
+                conn.connect();
 
-            registerDownloadReceiver();
-            pollDownloadProgress();
-        } catch (Exception e) {
-            android.util.Log.e("UpdateActivity", "Download failed", e);
-            statusText.setText("שגיאה בהורדה: " + e.getMessage());
-            btnUpdate.setEnabled(true);
-            btnUpdate.setText("נסה שוב");
-        }
-    }
-
-    private void registerDownloadReceiver() {
-        downloadReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-                if (id == downloadId) {
-                    onDownloadComplete();
+                int code = conn.getResponseCode();
+                if (code != 200) {
+                    errorMessage = "HTTP " + code;
+                    return null;
                 }
-            }
-        };
-        IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(downloadReceiver, filter, Context.RECEIVER_EXPORTED);
-        } else {
-            registerReceiver(downloadReceiver, filter);
-        }
-    }
 
-    private void pollDownloadProgress() {
-        final DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        final android.os.Handler h = new android.os.Handler();
-        h.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (downloadId < 0) return;
-                DownloadManager.Query q = new DownloadManager.Query();
-                q.setFilterById(downloadId);
-                Cursor c = dm.query(q);
-                if (c != null && c.moveToFirst()) {
-                    int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-                    long total = c.getLong(c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                    long done = c.getLong(c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                int total = conn.getContentLength();
+                in = conn.getInputStream();
+                out = new FileOutputStream(outFile);
+
+                byte[] buf = new byte[8192];
+                long downloaded = 0;
+                int n;
+                while ((n = in.read(buf)) > 0) {
+                    if (isCancelled()) {
+                        outFile.delete();
+                        return null;
+                    }
+                    out.write(buf, 0, n);
+                    downloaded += n;
                     if (total > 0) {
-                        int pct = (int) (done * 100 / total);
-                        downloadProgress.setProgress(pct);
-                        statusText.setText("מוריד " + pct + "%");
-                    }
-                    c.close();
-                    if (status == DownloadManager.STATUS_SUCCESSFUL
-                            || status == DownloadManager.STATUS_FAILED) {
-                        return;
+                        publishProgress((int) (downloaded * 100 / total));
                     }
                 }
-                h.postDelayed(this, 500);
+                out.flush();
+                return outFile;
+            } catch (Exception e) {
+                android.util.Log.e("UpdateActivity", "Download failed", e);
+                errorMessage = e.getClass().getSimpleName() + ": " + e.getMessage();
+                return null;
+            } finally {
+                try { if (out != null) out.close(); } catch (Exception ignored) {}
+                try { if (in != null) in.close(); } catch (Exception ignored) {}
+                if (conn != null) conn.disconnect();
             }
-        }, 500);
-    }
+        }
 
-    private void onDownloadComplete() {
-        downloadProgress.setVisibility(View.GONE);
-        statusText.setText("מתקין עדכון…");
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            int pct = values[0];
+            downloadProgress.setProgress(pct);
+            statusText.setText("מוריד " + pct + "%");
+        }
 
-        DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        DownloadManager.Query q = new DownloadManager.Query();
-        q.setFilterById(downloadId);
-        Cursor c = dm.query(q);
-        if (c != null && c.moveToFirst()) {
-            int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-            if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                int localUriIdx = c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI);
-                int localPathIdx = c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME);
-                String localUri = localUriIdx >= 0 ? c.getString(localUriIdx) : null;
-                String localPath = localPathIdx >= 0 ? c.getString(localPathIdx) : null;
-                c.close();
-                File apkFile = null;
-                if (localPath != null) apkFile = new File(localPath);
-                if (apkFile == null || !apkFile.exists()) {
-                    apkFile = new File(android.os.Environment.getExternalStoragePublicDirectory(
-                            android.os.Environment.DIRECTORY_DOWNLOADS),
-                            "zmaney-hayom-update.apk");
-                }
-                launchInstall(apkFile, localUri);
+        @Override
+        protected void onPostExecute(File apkFile) {
+            downloadProgress.setVisibility(View.GONE);
+            if (apkFile != null && apkFile.exists()) {
+                statusText.setText("מתקין עדכון…");
+                launchInstall(apkFile);
             } else {
-                int reasonIdx = c.getColumnIndex(DownloadManager.COLUMN_REASON);
-                int reason = reasonIdx >= 0 ? c.getInt(reasonIdx) : -1;
-                c.close();
-                String msg = "ההורדה נכשלה (קוד: " + reason + ")";
-                android.util.Log.e("UpdateActivity", msg);
-                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                String msg = "ההורדה נכשלה" + (errorMessage != null ? ": " + errorMessage : "");
+                statusText.setText(msg);
+                Toast.makeText(UpdateActivity.this, msg, Toast.LENGTH_LONG).show();
                 btnUpdate.setEnabled(true);
                 btnUpdate.setText("נסה שוב");
-                statusText.setText(msg);
             }
         }
     }
 
-    private void launchInstall(File apkFile, String fallbackUri) {
+    private void launchInstall(File apkFile) {
         try {
-            if (apkFile == null || !apkFile.exists()) {
-                throw new Exception("קובץ ה-APK לא נמצא");
-            }
-
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             Uri installUri;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                // API 24+ requires FileProvider
                 installUri = FileProvider.getUriForFile(
                         this, getPackageName() + ".fileprovider", apkFile);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             } else {
-                // API < 24: use direct file:// URI
                 installUri = Uri.fromFile(apkFile);
             }
 
@@ -274,8 +235,8 @@ public class UpdateActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (downloadReceiver != null) {
-            try { unregisterReceiver(downloadReceiver); } catch (Exception ignored) {}
+        if (downloadTask != null) {
+            downloadTask.cancel(true);
         }
     }
 }
