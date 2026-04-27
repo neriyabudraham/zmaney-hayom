@@ -90,6 +90,23 @@ public class CustomizeActivity extends AppCompatActivity {
             @Override public void onClick(View v) { showRingtonePicker(); }
         });
 
+        // Clock size toggle
+        final androidx.appcompat.widget.SwitchCompat switchCompact = findViewById(R.id.switch_clock_compact);
+        final TextView txtClockSize = findViewById(R.id.txt_clock_size);
+        boolean isCompact = prefs.getBoolean("clock_compact", false);
+        switchCompact.setChecked(isCompact);
+        txtClockSize.setText(isCompact ? "מוקטן" : "רגיל");
+        switchCompact.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(android.widget.CompoundButton b, boolean checked) {
+                prefs.edit().putBoolean("clock_compact", checked).apply();
+                txtClockSize.setText(checked ? "מוקטן" : "רגיל");
+            }
+        });
+        findViewById(R.id.row_clock_size).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) { switchCompact.toggle(); }
+        });
+
         SeekBar fontSeekbar = findViewById(R.id.seekbar_font_size);
         fontSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

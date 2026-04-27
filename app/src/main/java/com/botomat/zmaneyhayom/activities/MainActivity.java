@@ -182,6 +182,28 @@ public class MainActivity extends AppCompatActivity {
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) { showDatePicker(); }
         });
+
+        applyThemeAwareBadges();
+        applyClockSize();
+    }
+
+    private void applyThemeAwareBadges() {
+        boolean dark = ThemeHelper.isDarkMode(this);
+        int badgeRes = dark ? R.drawable.badge_accent_dark : R.drawable.badge_accent;
+        if (nextAlertContainer != null) nextAlertContainer.setBackgroundResource(badgeRes);
+        if (btnToday != null) btnToday.setBackgroundResource(badgeRes);
+        if (omerText != null) omerText.setBackgroundResource(badgeRes);
+    }
+
+    private void applyClockSize() {
+        boolean compact = prefs.getBoolean("clock_compact", false);
+        android.widget.TextClock clock = findViewById(R.id.clock_view);
+        float clockSize = compact ? 22f : 34f;
+        float hebSize = compact ? 14f : 18f;
+        float gregSize = compact ? 9f : 10f;
+        if (clock != null) clock.setTextSize(clockSize);
+        if (hebrewDate != null) hebrewDate.setTextSize(hebSize);
+        if (gregorianDate != null) gregorianDate.setTextSize(gregSize);
     }
 
     private void showDatePicker() {
@@ -520,6 +542,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         int fontScale = prefs.getInt("font_scale", 2);
         adapter.setFontScale(fontScale);
+        applyClockSize();
         loadZmanim();
         handler.post(updateRunnable);
     }

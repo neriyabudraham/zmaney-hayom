@@ -60,7 +60,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/divider_light"
+                android:background="?attr/dividerColor"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp" />
 
@@ -142,7 +142,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/divider_light"
+                android:background="?attr/dividerColor"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp" />
 
