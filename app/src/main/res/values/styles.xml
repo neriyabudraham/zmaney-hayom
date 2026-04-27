@@ -9,6 +9,10 @@
         <item name="android:textColorPrimary">#1E293B</item>
         <item name="android:textColorSecondary">#64748B</item>
         <item name="android:windowBackground">#F8FAFC</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#1E293B</item>
+        <item name="dividerColor">#E2E8F0</item>
+        <item name="surfaceAltColor">#F1F5F9</item>
     </style>
 
     <!-- ============ OCEANIC PROFESSIONAL - DARK ============ -->
@@ -19,6 +23,10 @@
         <item name="android:textColorPrimary">#F1F5F9</item>
         <item name="android:textColorSecondary">#94A3B8</item>
         <item name="android:windowBackground">#0F172A</item>
+        <item name="colorSurface">#1E293B</item>
+        <item name="colorOnSurface">#F1F5F9</item>
+        <item name="dividerColor">#334155</item>
+        <item name="surfaceAltColor">#293548</item>
     </style>
 
     <style name="AppTheme.Alarm" parent="Theme.MaterialComponents.Light.NoActionBar">

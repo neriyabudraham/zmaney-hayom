@@ -75,6 +75,17 @@ public class ManageAlertsActivity extends AppCompatActivity implements AlertsAda
         final boolean isEdit = existingRule != null;
         final View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_alert, null);
 
+        // Apply dark-mode drawables manually since we don't use system dark mode
+        boolean dark = ThemeHelper.isDarkMode(this);
+        if (dark) {
+            View rowZman = dialogView.findViewById(R.id.row_zman);
+            View rowOffset = dialogView.findViewById(R.id.row_offset_type);
+            View edit = dialogView.findViewById(R.id.edit_offset_value);
+            if (rowZman != null) rowZman.setBackgroundResource(R.drawable.selection_row_bg_dark);
+            if (rowOffset != null) rowOffset.setBackgroundResource(R.drawable.selection_row_bg_dark);
+            if (edit != null) edit.setBackgroundResource(R.drawable.edit_text_bg_dark);
+        }
+
         final TextView txtZman = dialogView.findViewById(R.id.txt_zman);
         final TextView txtOffsetType = dialogView.findViewById(R.id.txt_offset_type);
         final EditText offsetValue = dialogView.findViewById(R.id.edit_offset_value);

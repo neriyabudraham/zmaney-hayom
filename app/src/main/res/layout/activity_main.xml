@@ -19,7 +19,7 @@
         app:navigationIcon="@drawable/ic_menu_hamburger"
         android:focusable="true" />
 
-    <!-- Header row: clock+dates on left (LTR), nav buttons on right (visual right in RTL) -->
+    <!-- Compact header: clock+dates+badges+nav buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,10 +27,10 @@
         android:gravity="center_vertical"
         android:paddingStart="12dp"
         android:paddingEnd="8dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
 
-        <!-- Day navigation - vertical column -->
+        <!-- Day navigation - vertical column on right (in RTL view) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,8 +39,8 @@
 
             <ImageButton
                 android:id="@+id/btn_prev_day"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
                 android:src="@android:drawable/ic_media_rew"
                 android:background="@drawable/focus_highlight"
                 android:scaleType="fitCenter"
@@ -50,8 +50,8 @@
 
             <ImageButton
                 android:id="@+id/btn_calendar"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
                 android:src="@android:drawable/ic_menu_my_calendar"
                 android:background="@drawable/focus_highlight"
                 android:scaleType="fitCenter"
@@ -61,8 +61,8 @@
 
             <ImageButton
                 android:id="@+id/btn_next_day"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
                 android:src="@android:drawable/ic_media_ff"
                 android:background="@drawable/focus_highlight"
                 android:scaleType="fitCenter"
@@ -71,19 +71,20 @@
                 android:contentDescription="יום הבא" />
         </LinearLayout>
 
-        <!-- Clock + dates - takes remaining space, centered -->
+        <!-- Clock + dates + badges, takes remaining space -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:paddingStart="8dp">
 
             <TextClock
                 android:id="@+id/clock_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="40sp"
+                android:textSize="34sp"
                 android:fontFamily="sans-serif-black"
                 android:textStyle="bold"
                 android:format24Hour="HH:mm:ss"
@@ -95,7 +96,7 @@
                 android:id="@+id/hebrew_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-medium"
                 android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
@@ -105,76 +106,69 @@
                 android:id="@+id/gregorian_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textColor="?android:textColorSecondary"
                 android:gravity="center" />
-        </LinearLayout>
-    </LinearLayout>
 
-    <!-- Today button (visible when viewing different day) -->
-    <TextView
-        android:id="@+id/btn_today"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="חזור להיום"
-        android:textSize="12sp"
-        android:textColor="?colorPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:background="@drawable/badge_accent"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:focusable="true"
-        android:clickable="true"
-        android:visibility="gone" />
-
-    <!-- Omer + next alert -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="6dp">
-
-        <TextView
-            android:id="@+id/omer_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="?colorPrimary"
-            android:gravity="center"
-            android:background="@drawable/badge_accent"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:layout_marginEnd="4dp"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:id="@+id/next_alert_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:visibility="gone"
-            android:background="@drawable/badge_accent"
-            android:layout_marginStart="4dp">
-
-            <TextView
-                android:id="@+id/next_alert_text"
+            <!-- Badges row inside the centered column -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="?colorPrimary" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="3dp">
+
+                <LinearLayout
+                    android:id="@+id/next_alert_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:background="@drawable/badge_accent">
+
+                    <TextView
+                        android:id="@+id/next_alert_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="?colorPrimary" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/btn_today"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="היום"
+                    android:textSize="10sp"
+                    android:textColor="?colorPrimary"
+                    android:fontFamily="sans-serif-medium"
+                    android:background="@drawable/badge_accent"
+                    android:layout_marginStart="4dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <!-- Omer banner full-width below clock when active -->
+    <TextView
+        android:id="@+id/omer_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?colorPrimary"
+        android:gravity="center"
+        android:background="@drawable/badge_accent"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="4dp"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
