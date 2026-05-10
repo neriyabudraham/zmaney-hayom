@@ -198,12 +198,36 @@ public class MainActivity extends AppCompatActivity {
     private void applyClockSize() {
         boolean compact = prefs.getBoolean("clock_compact", false);
         android.widget.TextClock clock = findViewById(R.id.clock_view);
-        float clockSize = compact ? 22f : 34f;
-        float hebSize = compact ? 14f : 18f;
+        float clockSize = compact ? 20f : 34f;
+        float hebSize = compact ? 13f : 18f;
         float gregSize = compact ? 9f : 10f;
+        float badgeSize = compact ? 9f : 10f;
+        float omerSize = compact ? 9f : 11f;
         if (clock != null) clock.setTextSize(clockSize);
         if (hebrewDate != null) hebrewDate.setTextSize(hebSize);
         if (gregorianDate != null) gregorianDate.setTextSize(gregSize);
+        if (nextAlertText != null) nextAlertText.setTextSize(badgeSize);
+        if (btnToday != null) btnToday.setTextSize(badgeSize);
+        if (omerText != null) {
+            omerText.setTextSize(omerSize);
+            int pad = (int) ((compact ? 2 : 4) * getResources().getDisplayMetrics().density);
+            omerText.setPadding(omerText.getPaddingLeft(), pad, omerText.getPaddingRight(), pad);
+        }
+        // Reduce day-nav button size in compact
+        int navSize = compact ? 28 : 34;
+        int navPad = compact ? 4 : 6;
+        for (int id : new int[]{R.id.btn_prev_day, R.id.btn_calendar, R.id.btn_next_day}) {
+            View v = findViewById(id);
+            if (v != null) {
+                android.view.ViewGroup.LayoutParams lp = v.getLayoutParams();
+                int px = (int) (navSize * getResources().getDisplayMetrics().density);
+                lp.width = px;
+                lp.height = px;
+                v.setLayoutParams(lp);
+                int padPx = (int) (navPad * getResources().getDisplayMetrics().density);
+                v.setPadding(padPx, padPx, padPx, padPx);
+            }
+        }
     }
 
     private void showDatePicker() {
@@ -460,31 +484,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // Scroll zmanim list with D-pad or volume keys
-        if (keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_VOLUME_UP
-                || keyCode == KeyEvent.KEYCODE_PAGE_UP) {
-            androidx.recyclerview.widget.LinearLayoutManager lm =
-                    (androidx.recyclerview.widget.LinearLayoutManager) zmanimList.getLayoutManager();
-            if (lm != null) {
-                int first = lm.findFirstVisibleItemPosition();
-                if (first > 0) {
-                    zmanimList.smoothScrollToPosition(Math.max(0, first - 2));
-                }
-            }
+        // Volume / Page keys still scroll the list (D-pad up/down handled by focus traversal)
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_PAGE_UP) {
+            zmanimList.smoothScrollBy(0, -300);
             return true;
         }
-        if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
-                || keyCode == KeyEvent.KEYCODE_PAGE_DOWN) {
-            androidx.recyclerview.widget.LinearLayoutManager lm =
-                    (androidx.recyclerview.widget.LinearLayoutManager) zmanimList.getLayoutManager();
-            if (lm != null) {
-                int last = lm.findLastVisibleItemPosition();
-                int total = adapter.getItemCount();
-                if (last < total - 1) {
-                    zmanimList.smoothScrollToPosition(Math.min(total - 1, last + 2));
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_PAGE_DOWN) {
+            zmanimList.smoothScrollBy(0, 300);
+            return true;
+        }
+        // First D-pad DOWN press jumps into the list if not already focused there
+        if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+            View focused = getCurrentFocus();
+            boolean inList = false;
+            if (focused != null) {
+                View v = focused;
+                while (v != null && v.getParent() instanceof View) {
+                    if (v.getParent() == zmanimList) { inList = true; break; }
+                    v = (View) v.getParent();
                 }
             }
-            return true;
+            if (!inList && zmanimList.getChildCount() > 0) {
+                View first = zmanimList.getChildAt(0);
+                first.setFocusableInTouchMode(false);
+                first.requestFocus();
+                return true;
+            }
+            // Otherwise normal focus traversal handles it
         }
         // OK / Enter / Menu / Soft-left = MAIN MENU
         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER

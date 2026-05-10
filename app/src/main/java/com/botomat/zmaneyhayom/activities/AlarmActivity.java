@@ -153,6 +153,31 @@ public class AlarmActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
+        // Hardware buttons:
+        // Right side: Volume Up / DPAD Right / # / 3 → STOP
+        // Left side: Volume Down / DPAD Left / * / 1 → SNOOZE
+        if (keyCode == android.view.KeyEvent.KEYCODE_VOLUME_UP
+                || keyCode == android.view.KeyEvent.KEYCODE_DPAD_RIGHT
+                || keyCode == android.view.KeyEvent.KEYCODE_POUND
+                || keyCode == android.view.KeyEvent.KEYCODE_3) {
+            stopAlarmPlayback();
+            finish();
+            return true;
+        }
+        if (keyCode == android.view.KeyEvent.KEYCODE_VOLUME_DOWN
+                || keyCode == android.view.KeyEvent.KEYCODE_DPAD_LEFT
+                || keyCode == android.view.KeyEvent.KEYCODE_STAR
+                || keyCode == android.view.KeyEvent.KEYCODE_1) {
+            stopAlarmPlayback();
+            snoozeAlarm();
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     private void startAlarm() {
         if (soundEnabled) {
             String customUri = PreferenceManager.getDefaultSharedPreferences(this)
